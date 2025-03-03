@@ -33,11 +33,16 @@ locals {
   deploy_enclosing_compartment = (var.enclosing_compartment_options == "Yes, deploy new")
   use_enclosing_compartment    = (var.enclosing_compartment_options == "Yes, use existing")
 
+  #-----------------------------------------------------------
+  #----- Switched off app and db compartments (Edward Jones)
+  #----- This will automatically mean that all related policies and groups will be removed for the LZ
+  #-----------------------------------------------------------
   enable_network_compartment  = true
   enable_security_compartment = true
-  enable_app_compartment      = true
-  enable_database_compartment = true
+  enable_app_compartment      = false
+  enable_database_compartment = false
   enable_exainfra_compartment = var.deploy_exainfra_cmp
+
 
   #-----------------------------------------------------------
   #----- Tags to apply to compartments

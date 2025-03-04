@@ -20,8 +20,15 @@ module "core_lz" {
   tenancy_ocid         = "ocid1.tenancy.oc1..aaaaaaaavsncoxsayjosdkgpbba773vuk72ihrwgumz7vvy54f27pdqxtauq"              # Replace with your tenancy OCID.
   user_ocid            = "ocid1.user.oc1..aaaaaaaa5efwa7mi2w2weijre43kwyfad2xxklbehkyonhep6q5skjprgsfa"                 # Replace with your user OCID.
   fingerprint          = "7b:41:37:c8:03:be:58:6c:f7:de:e4:f2:23:61:92:50"                                              # Replace with user fingerprint.
-  private_key_path     = "../../../../../../mreabdelhalim@gmail.com_2025-03-03T22_59_30.190Z.pem"                             # Replace with user private key local path.
-  private_key_password = ""                                                                                             # Replace with private key password, if any.
+  #private_key_path     = "../../../../../../mreabdelhalim@gmail.com_2025-03-03T22_59_30.190Z.pem"                             # Replace with user private key local path.
+  #private_key_password = "" 
+
+  private_key         = <<-EOT
+-----BEGIN PRIVATE KEY-----
+<insert your key here>
+-----END PRIVATE KEY-----
+EOT
+
   region               = "uk-london-1"                                                                                  # Replace with region name.
   service_label        = "ej"                                                                                           # Prefix prepended to deployed resource names. 
 

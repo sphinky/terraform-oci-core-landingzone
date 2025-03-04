@@ -21,7 +21,8 @@ locals {
 
   identity_domain_dynamic_groups_configuration = {
     default_identity_domain_id : "NEW-DOMAIN"
-    dynamic_groups : merge(local.security_functions_dynamic_group, local.database_kms_dynamic_group, local.net_fw_app_dynamic_group)
+    dynamic_groups : merge(local.security_functions_dynamic_group, local.appdev_functions_dynamic_group,
+    local.appdev_computeagent_dynamic_group, local.database_kms_dynamic_group, local.net_fw_app_dynamic_group)
 
   }
 }

@@ -17,13 +17,13 @@ module "core_lz" {
   # ------------------------------------------------------
   # ----- Environment
   # ------------------------------------------------------
-  tenancy_ocid         = "ocid1.tenancy.oc1..aaaaaaaa...3jb"               # Replace with your tenancy OCID.
-  user_ocid            = "ocid1.user.oc1..aaaaaaaa...xsb"                  # Replace with your user OCID.
-  fingerprint          = "19:42:xx:92:yy:b3:zz:2f:aa:ea:bb:59:cc:be:dd:ba" # Replace with user fingerprint.
-  private_key_path     = "path-to-pem-file-with-private-key"               # Replace with user private key local path.
-  private_key_password = ""                                                # Replace with private key password, if any.
-  region               = "us-phoenix-1"                                    # Replace with region name.
-  service_label        = "ej"                                              # Prefix prepended to deployed resource names. 
+  tenancy_ocid         = "ocid1.tenancy.oc1..aaaaaaaavsncoxsayjosdkgpbba773vuk72ihrwgumz7vvy54f27pdqxtauq"              # Replace with your tenancy OCID.
+  user_ocid            = "ocid1.user.oc1..aaaaaaaa5efwa7mi2w2weijre43kwyfad2xxklbehkyonhep6q5skjprgsfa"                 # Replace with your user OCID.
+  fingerprint          = "7b:41:37:c8:03:be:58:6c:f7:de:e4:f2:23:61:92:50"                                              # Replace with user fingerprint.
+  private_key_path     = "../../../../../../mreabdelhalim@gmail.com_2025-03-03T22_59_30.190Z.pem"                             # Replace with user private key local path.
+  private_key_password = ""                                                                                             # Replace with private key password, if any.
+  region               = "uk-london-1"                                                                                  # Replace with region name.
+  service_label        = "ej"                                                                                           # Prefix prepended to deployed resource names. 
 
 
   enclosing_compartment_parent_ocid = "ocid1.tenancy.oc1..aaaaaaaavsncoxsayjosdkgpbba773vuk72ihrwgumz7vvy54f27pdqxtauq"
@@ -40,7 +40,7 @@ module "core_lz" {
 
   hub_deployment_option = "VCN or on-premises connectivity routing through DMZ VCN with Network Virtual Appliance (DRG and DMZ VCN will be created)"
 
-  onprem_cidrs = ["0.0.0.0/0"]
+  #onprem_cidrs = ["0.0.0.0/0"]
 
   hub_vcn_name = "dmz-hub-vcn"
 
@@ -87,7 +87,7 @@ module "core_lz" {
 
   add_tt_vcn2               = true
   tt_vcn2_name              = "dev-internal-vcn"
-  tt_vcn2_cidrs             = []
+  tt_vcn2_cidrs             = ["172.28.105.0/24"]
   customize_tt_vcn2_subnets = true
   tt_vcn2_web_subnet_name   = "dev-web-snet"
   tt_vcn2_app_subnet_name   = "dev-app-snet"

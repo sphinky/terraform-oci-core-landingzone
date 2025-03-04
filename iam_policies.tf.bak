@@ -371,7 +371,11 @@ locals {
     "allow group ${join(",", local.cost_admin_group_name)} to manage usage-budgets in tenancy"]
 
   ### Dynamic Group Policies ###
- 
+  ## Compute Agent grants
+  compute_agent_grants = local.enable_app_compartment ? [
+    "allow dynamic-group ${local.appdev_computeagent_dynamic_group_name} to manage management-agents in compartment ${local.app_compartment_name}",
+    "allow dynamic-group ${local.appdev_computeagent_dynamic_group_name} to use metrics in compartment ${local.app_compartment_name}",
+    "allow dynamic-group ${local.appdev_computeagent_dynamic_group_name} to use tag-namespaces in compartment ${local.app_compartment_name}"] : []
 
   ## ADB grants
   autonomous_database_grants_on_security_cmp = local.enable_security_compartment ? [
@@ -443,7 +447,14 @@ locals {
   storage_admin_grants = concat(local.storage_admin_grants_on_app_cmp, local.storage_admin_grants_on_database_cmp, local.storage_admin_grants_on_security_cmp, local.storage_admin_grants_on_network_cmp)
 
   default_policies = {
-   
+    (local.compute_agent_policy_name) = {
+      compartment_id = local.enclosing_compartment_id
+      name           = local.compute_agent_policy_name
+      description    = "Core Landing Zone policy for ${local.appdev_computeagent_dynamic_group_name} group to manage compute agent related services."
+      defined_tags   = local.policies_defined_tags
+      freeform_tags  = local.policies_freeform_tags
+      statements     = local.compute_agent_grants
+    },
     (local.database_dynamic_group_policy_name) = length(local.autonomous_database_grants) > 0 ? {
       compartment_id = local.enclosing_compartment_id
       name           = local.database_dynamic_group_policy_name
@@ -475,6 +486,14 @@ locals {
       defined_tags   = local.policies_defined_tags
       freeform_tags  = local.policies_freeform_tags
       statements     = local.database_admin_grants
+    } : null,
+    (local.appdev_admin_policy_name) = length(local.appdev_admin_grants) > 0 ? {
+      compartment_id = local.enclosing_compartment_id
+      name           = local.appdev_admin_policy_name
+      description    = "Core Landing Zone policy for ${join(",", local.appdev_admin_group_name)} group to manage app development related services."
+      defined_tags   = local.policies_defined_tags
+      freeform_tags  = local.policies_freeform_tags
+      statements     = local.appdev_admin_grants
     } : null,
     (local.iam_admin_policy_name) = length(local.iam_admin_grants_on_enclosing_cmp) > 0 ? {
       compartment_id = local.enclosing_compartment_id

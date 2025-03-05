@@ -23,6 +23,7 @@ module "core_lz" {
   fingerprint          = "7b:41:37:c8:03:be:58:6c:f7:de:e4:f2:23:61:92:50"                                 # Replace with user fingerprint.
   private_key_path     = "../../../../../../mreabdelhalim@gmail.com_2025-03-03T22_59_30.190Z.pem"          # Replace with user private key local path.
   private_key_password = ""
+  # private_key        = ""
 
   region        = "uk-london-1" # Replace with region name.
   service_label = "ej"          # Prefix prepended to deployed resource names. 
@@ -38,7 +39,7 @@ module "core_lz" {
   # ------------------------------------------------------
   # ----- Networking
   # ------------------------------------------------------
-  #onprem_cidrs = ["0.0.0.0/0"]
+  # onprem_cidrs = ["0.0.0.0/0"]
   define_net            = true # enables network resources provisioning
   hub_deployment_option = "VCN or on-premises connectivity routing through DMZ VCN with Network Virtual Appliance (DRG and DMZ VCN will be created)"
 

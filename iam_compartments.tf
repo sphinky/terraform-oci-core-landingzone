@@ -60,6 +60,7 @@ locals {
   network_compartment_key   = "NETWORK-CMP"
   security_compartment_key  = "SECURITY-CMP"
   app_compartment_key       = "APP-CMP"
+  app_prod_compartment_key  = "APP-PROD-CMP"
   database_compartment_key  = "DATABASE-CMP"
   exainfra_compartment_key  = "EXAINFRA-CMP"
 
@@ -69,7 +70,8 @@ locals {
   provided_enclosing_compartment_name = "${var.service_label}-top-cmp"
   provided_network_compartment_name   = "${var.service_label}-network-cmp"
   provided_security_compartment_name  = "${var.service_label}-security-cmp"
-  provided_app_compartment_name       = "${var.service_label}-app-cmp"
+  provided_app_compartment_name       = "${var.service_label}-app-non-prod-cmp"
+  provided_app_prod_compartment_name  = "${var.service_label}-app-prod-cmp"
   provided_database_compartment_name  = "${var.service_label}-database-cmp"
   provided_exainfra_compartment_name  = "${var.service_label}-exainfra-cmp"
 
@@ -123,10 +125,30 @@ locals {
   app_cmp = local.enable_app_compartment ? {
     (local.app_compartment_key) : {
       name : local.provided_app_compartment_name,
-      description : "Core Landing Zone compartment for all resources related to application development: compute instances, storage, functions, OKE, API Gateway, streaming, and others.",
+      description : "Core Landing Zone compartment for all resources related to application development for Keystone (NON-PRODUCTION): compute instances, storage, functions, OKE, API Gateway, streaming, and others.",
       defined_tags : local.cmps_defined_tags,
       freeform_tags : local.cmps_freeform_tags,
-      children : {}
+      children : {
+        APM-ACCELERATOR-CMP = {
+          name        = "edj-apm-cmp",
+          description = "EDJ APM Dev",
+        }
+      }
+    }
+  } : {}
+
+  app_prod_cmp = local.enable_app_compartment ? {
+    (local.app_prod_compartment_key) : {
+      name : local.provided_app_prod_compartment_name,
+      description : "Core Landing Zone compartment for all resources related to application development for Keystone (PRODUCTION): compute instances, storage, functions, OKE, API Gateway, streaming, and others.",
+      defined_tags : local.cmps_defined_tags,
+      freeform_tags : local.cmps_freeform_tags,
+      children : {
+        APM-ACCELERATOR-CMP = {
+          name        = "edj-apm-accelerator-cmp",
+          description = "EDJ APM Accelerator Prod",
+        }
+      }
     }
   } : {}
 
@@ -150,7 +172,7 @@ locals {
     }
   } : {}
 
-  all_enclosed_compartments = merge(local.network_cmp, local.security_cmp, local.app_cmp, local.database_cmp, local.exainfra_cmp)
+  all_enclosed_compartments = merge(local.network_cmp, local.security_cmp, local.app_cmp, local.app_prod_cmp, local.database_cmp, local.exainfra_cmp)
   #------------------------------------------------------------------------
   #----- Enclosing compartment configuration definition. Input to module.
   #------------------------------------------------------------------------
@@ -174,6 +196,9 @@ locals {
 
   app_compartment_name = var.extend_landing_zone_to_new_region == false && local.enable_app_compartment == true ? module.lz_compartments[0].compartments[local.app_compartment_key].name : local.provided_app_compartment_name
   app_compartment_id   = var.extend_landing_zone_to_new_region == false && local.enable_app_compartment == true ? module.lz_compartments[0].compartments[local.app_compartment_key].id : length(data.oci_identity_compartments.app.compartments) > 0 ? data.oci_identity_compartments.app.compartments[0].id : null
+
+  app_prod_compartment_name = var.extend_landing_zone_to_new_region == false && local.enable_app_compartment == true ? module.lz_compartments[0].compartments[local.app_prod_compartment_key].name : local.provided_app_prod_compartment_name
+  app_prod_compartment_id   = var.extend_landing_zone_to_new_region == false && local.enable_app_compartment == true ? module.lz_compartments[0].compartments[local.app_prod_compartment_key].id : length(data.oci_identity_compartments.app-prod.compartments) > 0 ? data.oci_identity_compartments.app.compartments[0].id : null
 
   database_compartment_name = var.extend_landing_zone_to_new_region == false && local.enable_database_compartment == true ? module.lz_compartments[0].compartments[local.database_compartment_key].name : local.provided_database_compartment_name
   database_compartment_id   = var.extend_landing_zone_to_new_region == false && local.enable_database_compartment == true ? module.lz_compartments[0].compartments[local.database_compartment_key].id : length(data.oci_identity_compartments.database.compartments) > 0 ? data.oci_identity_compartments.database.compartments[0].id : null

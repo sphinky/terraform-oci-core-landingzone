@@ -3755,8 +3755,7 @@ variables:
   fastconnect_virtual_circuit_provider_service_id:
     type: string
     title: "Provider Service OCID"
-    description: "Enter the OCID of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see 
-    <a href=\"https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderServices\">ListFastConnectProviderServices</a>"
+    description: "Enter the OCID of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see <a href=\"https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderServices\">ListFastConnectProviderServices</a>"
     visible:
       - or:
         - eq:

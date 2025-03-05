@@ -33,8 +33,19 @@ module "core_lz" {
   # ------------------------------------------------------
   # ----- Group Mappings
   # ------------------------------------------------------
-  customize_iam  = true
-  groups_options = "No, use existing"
+  # Replace with OCIDs of existing groups, once they're SCIMed over from EntraId
+  customize_iam                              = true
+  groups_options                             = "No, use existing"
+  rm_existing_iam_admin_group_name           = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
+  rm_existing_cost_admin_group_name          = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
+  rm_existing_cred_admin_group_name          = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
+  rm_existing_security_admin_group_name      = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
+  rm_existing_ag_admin_group_name            = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
+  rm_existing_network_admin_group_name       = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
+  rm_existing_appdev_admin_group_name        = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
+  rm_existing_auditor_group_name             = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
+  rm_existing_announcement_reader_group_name = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
+  rm_existing_storage_admin_group_name       = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
 
   # ------------------------------------------------------
   # ----- Networking

@@ -88,6 +88,7 @@ module "core_lz" {
   tt_vcn2_app_subnet_name   = "dev-app-snet"
   tt_vcn2_db_subnet_name    = "dev-db-snet"
   tt_vcn2_web_subnet_cidr   = "172.28.105.0/26"
+  tt_vcn2_app_subnet_cidr   = "172.28.105.128/26"
   tt_vcn2_db_subnet_cidr    = "172.28.105.64/26"
 
   # ------------------------------------------------------
@@ -99,7 +100,7 @@ module "core_lz" {
   # ------------------------------------------------------
   # ----- Security
   # ------------------------------------------------------
-  enable_cloud_guard = false
+  enable_cloud_guard            = false
   enable_service_connector      = true
   service_connector_target_kind = "streaming"
 }

@@ -23,7 +23,7 @@ module "core_lz" {
   fingerprint          = "7b:41:37:c8:03:be:58:6c:f7:de:e4:f2:23:61:92:50"                                 # Replace with user fingerprint.
   private_key_path     = "../../../../../../mreabdelhalim@gmail.com_2025-03-03T22_59_30.190Z.pem"          # Replace with user private key local path.
   private_key_password = ""
-  # private_key        = ""
+  # private_key        = ""                                                                                # Replace with user private key.
 
   region        = "uk-london-1" # Replace with region name.
   service_label = "ej"          # Prefix prepended to deployed resource names. 

@@ -39,7 +39,7 @@ locals {
   #-----------------------------------------------------------
   enable_network_compartment  = true
   enable_security_compartment = true
-  enable_app_compartment      = false
+  enable_app_compartment      = true
   enable_database_compartment = true
   enable_exainfra_compartment = var.deploy_exainfra_cmp
 
@@ -129,10 +129,7 @@ locals {
       defined_tags : local.cmps_defined_tags,
       freeform_tags : local.cmps_freeform_tags,
       children : {
-        APM-ACCELERATOR-CMP = {
-          name        = "edj-apm-cmp",
-          description = "EDJ APM Dev",
-        }
+
       }
     }
   } : {}
@@ -144,10 +141,6 @@ locals {
       defined_tags : local.cmps_defined_tags,
       freeform_tags : local.cmps_freeform_tags,
       children : {
-        APM-ACCELERATOR-CMP = {
-          name        = "edj-apm-accelerator-cmp",
-          description = "EDJ APM Accelerator Prod",
-        }
       }
     }
   } : {}

@@ -28,7 +28,7 @@ module "core_lz" {
   region        = "uk-london-1" # Replace with region name.
   service_label = "ej"          # Prefix prepended to deployed resource names. 
 
-  enclosing_compartment_parent_ocid = "ocid1.tenancy.oc1..aaaaaaaavsncoxsayjosdkgpbba773vuk72ihrwgumz7vvy54f27pdqxtauq"
+  enclosing_compartment_parent_ocid = "ocid1.compartment.oc1..aaaaaaaaw47psqasz6loxjcbv2qixewgigq5tbvnsuhldj5rclrhsf54kwxa"
 
   # ------------------------------------------------------
   # ----- Group Mappings
@@ -42,7 +42,7 @@ module "core_lz" {
   rm_existing_security_admin_group_name      = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
   rm_existing_ag_admin_group_name            = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
   rm_existing_network_admin_group_name       = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
-  rm_existing_appdev_admin_group_name        = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
+  #rm_existing_appdev_admin_group_name       = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
   rm_existing_auditor_group_name             = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
   rm_existing_announcement_reader_group_name = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
   rm_existing_storage_admin_group_name       = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
@@ -58,7 +58,7 @@ module "core_lz" {
   hub_vcn_deploy_net_appliance_option = "OCI Native Firewall"
   enable_native_firewall_threat_log   = true
   enable_native_firewall_traffic_log  = true
-  # oci_nfw_ip_ocid                   = ["ocid1.privateip.oc1.phx.abyhql...goq"] as determined after the initial Terraform Apply
+  oci_nfw_ip_ocid                     = "ocid1.privateip.oc1.uk-london-1.abwgiljtv2hzcgkadps2my3xw5ct5sxh7tmti23zzvduwph3a2xjeiigdj4a" 
   # oci_nfw_policy_ocid               = ["ocid1.networkfirewallpolicy.oc1.phx.amaaaa...gmm"] from user created network firewall policy
 
   # --- Hub VCN: 	
@@ -77,7 +77,7 @@ module "core_lz" {
   hub_vcn_mgmt_subnet_external_allowed_cidrs_for_http = []
   hub_vcn_mgmt_subnet_external_allowed_cidrs_for_ssh  = []
 
-  # --- Spoke VCN: three-tier VCN 1	
+  # --- Spoke 1 VCN: three-tier VCN 1	
   add_tt_vcn1               = true
   tt_vcn1_name              = "prod-shared-vcn"
   tt_vcn1_attach_to_drg     = true
@@ -90,7 +90,7 @@ module "core_lz" {
   tt_vcn1_app_subnet_cidr   = "172.28.104.128/26"
   tt_vcn1_db_subnet_cidr    = "172.28.104.64/26"
 
-  # --- Spoke VCN: three-tier VCN 2	
+  # --- Spoke 2 VCN: three-tier VCN 2	
   add_tt_vcn2               = true
   tt_vcn2_name              = "dev-internal-vcn"
   tt_vcn2_attach_to_drg     = true
@@ -106,8 +106,8 @@ module "core_lz" {
   # ------------------------------------------------------
   # ----- Notifications
   # ------------------------------------------------------
-  network_admin_email_endpoints  = ["steve.conner@edwardjones.com", "cloud-platform@edwardjones.com"]
-  security_admin_email_endpoints = ["cloud-platform@edwardjones.com"]
+  network_admin_email_endpoints  = ["steve.conner@edwardjonesxyz.com", "cloud-platform@edwardjonesxyz.coms"]
+  security_admin_email_endpoints = ["cloud-platform@edwardjonesxyz.coms"]
 
   # ------------------------------------------------------
   # ----- Security

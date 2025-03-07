@@ -58,7 +58,7 @@ module "core_lz" {
   hub_vcn_deploy_net_appliance_option = "OCI Native Firewall"
   enable_native_firewall_threat_log   = true
   enable_native_firewall_traffic_log  = true
-  oci_nfw_ip_ocid                     = "ocid1.privateip.oc1.uk-london-1.abwgiljtv2hzcgkadps2my3xw5ct5sxh7tmti23zzvduwph3a2xjeiigdj4a" 
+  # oci_nfw_ip_ocid                     = "ocid1.privateip.oc1.uk-london-1.abwgiljtv2hzcgkadps2my3xw5ct5sxh7tmti23zzvduwph3a2xjeiigdj4a" 
   # oci_nfw_policy_ocid               = ["ocid1.networkfirewallpolicy.oc1.phx.amaaaa...gmm"] from user created network firewall policy
 
   # --- Hub VCN: 	

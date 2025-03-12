@@ -22,6 +22,10 @@ locals {
     "in ${local.zpr_namespace_name}.net:hub-vcn VCN allow ${local.zpr_namespace_name}.bastion:${local.zpr_label} endpoints to connect to '${coalesce(var.tt_vcn3_db_subnet_cidr, cidrsubnet(var.tt_vcn3_cidrs[0], 4, 2))}' with protocol='tcp/22'"
   ] : []
 
+  hub_to_tt_4_zpr_grants = local.hub_with_vcn && local.add_tt_vcn4 && var.deploy_bastion_jump_host ? [
+    "in ${local.zpr_namespace_name}.net:hub-vcn VCN allow ${local.zpr_namespace_name}.bastion:${local.zpr_label} endpoints to connect to '${coalesce(var.tt_vcn4_db_subnet_cidr, cidrsubnet(var.tt_vcn4_cidrs[0], 4, 2))}' with protocol='tcp/22'"
+  ] : []
+
   hub_to_exa_1_zpr_grants = local.hub_with_vcn && local.add_exa_vcn1 && var.deploy_bastion_jump_host ? [
     "in ${local.zpr_namespace_name}.net:hub-vcn VCN allow ${local.zpr_namespace_name}.bastion:${local.zpr_label} endpoints to connect to '${coalesce(var.exa_vcn1_client_subnet_cidr, cidrsubnet(var.exa_vcn1_cidrs[0], 4, 0))}' with protocol='tcp/22'"
   ] : []
@@ -38,7 +42,7 @@ locals {
     ZPR-POLICY-HUB-VCN = {
       description = "Core Landing Zone ZPR policy for ${var.service_label}-${coalesce(var.hub_vcn_name, "hub-vcn")}-zpr-policy."
       name        = "${var.service_label}-${coalesce(var.hub_vcn_name, "hub-vcn")}-zpr-policy"
-      statements  = concat(local.hub_bastion_zpr_grants, local.hub_on_prem_zpr_grants, local.hub_to_tt_1_zpr_grants, local.hub_to_tt_2_zpr_grants, local.hub_to_tt_3_zpr_grants, local.hub_to_exa_1_zpr_grants, local.hub_to_exa_2_zpr_grants, local.hub_to_exa_3_zpr_grants)
+      statements  = concat(local.hub_bastion_zpr_grants, local.hub_on_prem_zpr_grants, local.hub_to_tt_1_zpr_grants, local.hub_to_tt_2_zpr_grants, local.hub_to_tt_3_zpr_grants, local.hub_to_tt_4_zpr_grants, local.hub_to_exa_1_zpr_grants, local.hub_to_exa_2_zpr_grants, local.hub_to_exa_3_zpr_grants)
     }
   } : {}
 

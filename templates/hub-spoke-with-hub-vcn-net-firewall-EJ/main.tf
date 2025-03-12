@@ -58,7 +58,7 @@ module "core_lz" {
   hub_vcn_deploy_net_appliance_option = "OCI Native Firewall"
   enable_native_firewall_threat_log   = true
   enable_native_firewall_traffic_log  = true
-  # oci_nfw_ip_ocid                     = "ocid1.privateip.oc1.uk-london-1.abwgiljtv2hzcgkadps2my3xw5ct5sxh7tmti23zzvduwph3a2xjeiigdj4a" 
+  oci_nfw_ip_ocid                     = "ocid1.privateip.oc1.uk-london-1.abwgiljtv2hzcgkadps2my3xw5ct5sxh7tmti23zzvduwph3a2xjeiigdj4a" 
   # oci_nfw_policy_ocid               = ["ocid1.networkfirewallpolicy.oc1.phx.amaaaa...gmm"] from user created network firewall policy
 
   # --- Hub VCN: 	
@@ -81,14 +81,14 @@ module "core_lz" {
   add_tt_vcn1               = true
   tt_vcn1_name              = "prod-shared-vcn"
   tt_vcn1_attach_to_drg     = true
-  tt_vcn1_cidrs             = ["172.28.104.0/24"]
+  tt_vcn1_cidrs             = ["172.28.104.0/25"]
   customize_tt_vcn1_subnets = true
   tt_vcn1_web_subnet_name   = "shared-web-snet"
   tt_vcn1_app_subnet_name   = "shared-app-snet"
   tt_vcn1_db_subnet_name    = "shared-db-snet"
-  tt_vcn1_web_subnet_cidr   = "172.28.104.0/26"
-  tt_vcn1_app_subnet_cidr   = "172.28.104.128/26"
-  tt_vcn1_db_subnet_cidr    = "172.28.104.64/26"
+  tt_vcn1_web_subnet_cidr   = "172.28.104.0/27"
+  tt_vcn1_app_subnet_cidr   = "172.28.104.64/27"
+  tt_vcn1_db_subnet_cidr    = "172.28.104.32/27"
 
   # --- Spoke 2 VCN: three-tier VCN 2	
   add_tt_vcn2               = true
@@ -103,6 +103,32 @@ module "core_lz" {
   tt_vcn2_app_subnet_cidr   = "172.28.105.128/26"
   tt_vcn2_db_subnet_cidr    = "172.28.105.64/26"
 
+ #--- Spoke 3 VCN: three-tier VCN 3	
+  add_tt_vcn3               = true
+  tt_vcn3_name              = "prod-internal-vcn"
+  tt_vcn3_attach_to_drg     = true
+  tt_vcn3_cidrs             = ["172.28.106.0/24"]
+  customize_tt_vcn3_subnets = true
+  tt_vcn3_web_subnet_name   = "prod-web-snet"
+  tt_vcn3_app_subnet_name   = "prod-app-snet"
+  tt_vcn3_db_subnet_name    = "prod-db-snet"
+  tt_vcn3_web_subnet_cidr   = "172.28.106.0/26"
+  tt_vcn3_app_subnet_cidr   = "172.28.106.128/26"
+  tt_vcn3_db_subnet_cidr    = "172.28.106.64/26"
+
+  #--- Spoke 4 VCN: three-tier VCN 4	
+  add_tt_vcn4               = true
+  tt_vcn4_name              = "clone-internal-vcn"
+  tt_vcn4_attach_to_drg     = true
+  tt_vcn4_cidrs             = ["172.28.107.0/24"]
+  customize_tt_vcn4_subnets = true
+  tt_vcn4_web_subnet_name   = "dev-web-snet"
+  tt_vcn4_app_subnet_name   = "dev-app-snet"
+  tt_vcn4_db_subnet_name    = "dev-db-snet"
+  tt_vcn4_web_subnet_cidr   = "172.28.107.0/26"
+  tt_vcn4_app_subnet_cidr   = "172.28.107.128/26"
+  tt_vcn4_db_subnet_cidr    = "172.28.107.64/26"
+
   # ------------------------------------------------------
   # ----- Notifications
   # ------------------------------------------------------
@@ -113,6 +139,6 @@ module "core_lz" {
   # ----- Security
   # ------------------------------------------------------
   enable_cloud_guard            = false
-  enable_service_connector      = true
+  enable_service_connector      = false
   service_connector_target_kind = "streaming"
 }

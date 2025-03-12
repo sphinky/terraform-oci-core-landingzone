@@ -22,16 +22,7 @@ locals {
     }
   }
 
-  dev_admin_group = {
-    ("DEV_ADMIN_GROUP") = {
-      name          = "ej_dev_admin_grp"
-      description   = "Core Landing Zone group for storage services management."
-      members       = []
-      defined_tags  = local.groups_defined_tags
-      freeform_tags = local.groups_freeform_tags
-    }
-  }
-
+  
 dev_deploy_group = {
     ("DEV_ADMIN_GROUP") = {
       name          = "ej_dev_deploy_grp"

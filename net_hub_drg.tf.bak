@@ -74,17 +74,6 @@ locals {
               }
             }
           } : {},
-           (local.add_tt_vcn4 == true && var.tt_vcn4_attach_to_drg == true) ? {
-            "TT-VCN-4-ATTACHMENT" = {
-              display_name = "${coalesce(var.tt_vcn4_name, "${var.service_label}-three-tier-vcn-4")}-attachment"
-              # DRG route table for the VCN attachment. It defines the next hop for traffic that enters the DRG via this attachment.
-              drg_route_table_key = "TT-VCN-4-DRG-ROUTE-TABLE"
-              network_details = {
-                attached_resource_key = "TT-VCN-4"
-                type                  = "VCN"
-              }
-            }
-          } : {},
           (local.add_exa_vcn1 == true && var.exa_vcn1_attach_to_drg == true) ? {
             "EXA-VCN-1-ATTACHMENT" = {
               display_name = "${coalesce(var.exa_vcn1_name, "${var.service_label}-exadata-vcn-1")}-attachment"
@@ -207,12 +196,6 @@ locals {
               import_drg_route_distribution_key = "TT-VCN-3-DRG-IMPORT-ROUTE-DISTRIBUTION"
             }
           } : {},
-           (local.add_tt_vcn4 == true && var.tt_vcn4_attach_to_drg == true) ? {
-            "TT-VCN-4-DRG-ROUTE-TABLE" = {
-              display_name                      = "${coalesce(var.tt_vcn4_name, "${var.service_label}-three-tier-vcn-4")}-drg-route-table"
-              import_drg_route_distribution_key = "TT-VCN-4-DRG-IMPORT-ROUTE-DISTRIBUTION"
-            }
-          } : {},
           (local.add_exa_vcn1 == true && var.exa_vcn1_attach_to_drg == true) ? {
             "EXA-VCN-1-DRG-ROUTE-TABLE" = {
               display_name                      = "${coalesce(var.exa_vcn1_name, "${var.service_label}-exadata-vcn-1")}-drg-route-table"
@@ -281,13 +264,6 @@ locals {
                     next_hop_drg_attachment_key = "HUB-VCN-ATTACHMENT"
                   }
                 } : {},
-                var.tt_vcn4_onprem_route_enable && local.hub_with_vcn == true ? {
-                  for cidr in var.tt_vcn4_cidrs : "IPSEC-TT-VCN-4-${replace(replace(cidr, ".", ""), "/", "")}-TO-HUB-VCN-STMT" => {
-                    destination                 = cidr
-                    destination_type            = "CIDR_BLOCK"
-                    next_hop_drg_attachment_key = "HUB-VCN-ATTACHMENT"
-                  }
-                } : {},
                 var.exa_vcn1_onprem_route_enable && local.hub_with_vcn == true ? {
                   for cidr in var.exa_vcn1_cidrs : "IPSEC-EXA-VCN-1-${replace(replace(cidr, ".", ""), "/", "")}-TO-HUB-VCN-STMT" => {
                     destination                 = cidr
@@ -349,13 +325,6 @@ locals {
                     destination                 = cidr
                     destination_type            = "CIDR_BLOCK"
                     next_hop_drg_attachment_key = "TT-VCN-3-ATTACHMENT"
-                  }
-                } : {},
-                var.tt_vcn4_onprem_route_enable == true && local.hub_with_drg_only == true ? {
-                  for cidr in var.tt_vcn4_cidrs : "IPSEC-TO-TT-VCN-4-${replace(replace(cidr, ".", ""), "/", "")}-STMT" => {
-                    destination                 = cidr
-                    destination_type            = "CIDR_BLOCK"
-                    next_hop_drg_attachment_key = "TT-VCN-4-ATTACHMENT"
                   }
                 } : {},
                 var.exa_vcn1_onprem_route_enable == true && local.hub_with_drg_only == true ? {
@@ -435,13 +404,6 @@ locals {
                     next_hop_drg_attachment_key = "HUB-VCN-ATTACHMENT"
                   }
                 } : {},
-                var.tt_vcn4_onprem_route_enable && local.hub_with_vcn == true ? {
-                  for cidr in var.tt_vcn4_cidrs : "FC-VIRTUAL-CIRCUIT-TT-VCN-4-${replace(replace(cidr, ".", ""), "/", "")}-TO-HUB-VCN-STMT" => {
-                    destination                 = cidr
-                    destination_type            = "CIDR_BLOCK"
-                    next_hop_drg_attachment_key = "HUB-VCN-ATTACHMENT"
-                  }
-                } : {},
                 var.exa_vcn1_onprem_route_enable && local.hub_with_vcn == true ? {
                   for cidr in var.exa_vcn1_cidrs : "FC-VIRTUAL-CIRCUIT-EXA-VCN-1-${replace(replace(cidr, ".", ""), "/", "")}-TO-HUB-VCN-STMT" => {
                     destination                 = cidr
@@ -503,13 +465,6 @@ locals {
                     destination                 = cidr
                     destination_type            = "CIDR_BLOCK"
                     next_hop_drg_attachment_key = "TT-VCN-3-ATTACHMENT"
-                  }
-                } : {},
-                var.tt_vcn4_onprem_route_enable == true && local.hub_with_drg_only == true ? {
-                  for cidr in var.tt_vcn4_cidrs : "FC-VIRTUAL-CIRCUIT-TO-TT-VCN-4-${replace(replace(cidr, ".", ""), "/", "")}-STMT" => {
-                    destination                 = cidr
-                    destination_type            = "CIDR_BLOCK"
-                    next_hop_drg_attachment_key = "TT-VCN-4-ATTACHMENT"
                   }
                 } : {},
                 var.exa_vcn1_onprem_route_enable == true && local.hub_with_drg_only == true ? {
@@ -615,17 +570,6 @@ locals {
                       match_type         = "DRG_ATTACHMENT_ID",
                       attachment_type    = "VCN",
                       drg_attachment_key = "TT-VCN-3-ATTACHMENT"
-                    }
-                  }
-                } : {},
-                (length(var.tt_vcn1_routable_vcns) == 0 || contains(var.tt_vcn1_routable_vcns, "TT-VCN-4")) && var.tt_vcn4_attach_to_drg == true && local.hub_with_drg_only == true ? {
-                  "TT-VCN-1-TO-TT-VCN-4-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 3,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "TT-VCN-4-ATTACHMENT"
                     }
                   }
                 } : {},
@@ -758,17 +702,6 @@ locals {
                     }
                   }
                 } : {},
-                (length(var.tt_vcn2_routable_vcns) == 0 || contains(var.tt_vcn2_routable_vcns, "TT-VCN-4")) && var.tt_vcn4_attach_to_drg == true && local.hub_with_drg_only == true ? {
-                  "TT-VCN-2-TO-TT-VCN-4-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 3,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "TT-VCN-4-ATTACHMENT"
-                    }
-                  }
-                } : {},
                 (length(var.tt_vcn2_routable_vcns) == 0 || contains(var.tt_vcn2_routable_vcns, "EXA-VCN-1")) && var.exa_vcn1_attach_to_drg == true && local.hub_with_drg_only == true ? {
                   "TT-VCN-2-TO-EXA-VCN-1-STMT" = {
                     action   = "ACCEPT",
@@ -898,17 +831,6 @@ locals {
                     }
                   }
                 } : {},
-                (length(var.tt_vcn3_routable_vcns) == 0 || contains(var.tt_vcn3_routable_vcns, "TT-VCN-4")) && var.tt_vcn4_attach_to_drg == true && local.hub_with_drg_only == true ? {
-                  "TT-VCN-3-TO-TT-VCN-4-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 3,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "TT-VCN-4-ATTACHMENT"
-                    }
-                  }
-                } : {},
                 (length(var.tt_vcn3_routable_vcns) == 0 || contains(var.tt_vcn3_routable_vcns, "EXA-VCN-1")) && var.exa_vcn1_attach_to_drg == true && local.hub_with_drg_only == true ? {
                   "TT-VCN-3-TO-EXA-VCN-1-STMT" = {
                     action   = "ACCEPT",
@@ -987,146 +909,6 @@ locals {
                 } : {},
                 var.tt_vcn3_onprem_route_enable == true && var.tt_vcn3_attach_to_drg && local.hub_with_drg_only == true && (length(regexall("IPSEC", upper(var.on_premises_connection_option))) > 0) ? {
                   "TT-VCN-3-TO-IPSEC-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 11,
-                    match_criteria = {
-                      match_type      = "DRG_ATTACHMENT_TYPE",
-                      attachment_type = "IPSEC_TUNNEL",
-                    }
-                  }
-                } : {}
-              )
-            }
-          } : {},
-           (local.add_tt_vcn4 == true && var.tt_vcn4_attach_to_drg == true) ? {
-            # This import distribution makes its importing DRG route tables to have the referred drg_attachment_key as the next-hop attachment.
-            # In this case, the "Hub VCN ingress route table for the DRG" is imported by those DRG route tables.
-            "TT-VCN-4-DRG-IMPORT-ROUTE-DISTRIBUTION" = {
-              display_name      = "${coalesce(var.tt_vcn4_name, "${var.service_label}-three-tier-vcn-4")}-drg-import-route-distribution"
-              distribution_type = "IMPORT"
-              statements = merge(
-                local.hub_with_vcn == true ? {
-                  "TT-VCN-4-TO-HUB-VCN-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 1,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "HUB-VCN-ATTACHMENT"
-                    }
-                  }
-                } : {},
-                (length(var.tt_vcn4_routable_vcns) == 0 || contains(var.tt_vcn4_routable_vcns, "TT-VCN-1")) && var.tt_vcn1_attach_to_drg == true && local.hub_with_drg_only == true ? {
-                  "TT-VCN-4-TO-TT-VCN-1-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 2,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "TT-VCN-1-ATTACHMENT"
-                    }
-                  }
-                } : {},
-                (length(var.tt_vcn4_routable_vcns) == 0 || contains(var.tt_vcn4_routable_vcns, "TT-VCN-2")) && var.tt_vcn2_attach_to_drg == true && local.hub_with_drg_only == true ? {
-                  "TT-VCN-4-TO-TT-VCN-2-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 3,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "TT-VCN-2-ATTACHMENT"
-                    }
-                  }
-                } : {},
-                (length(var.tt_vcn4_routable_vcns) == 0 || contains(var.tt_vcn4_routable_vcns, "TT-VCN-3")) && var.tt_vcn3_attach_to_drg == true && local.hub_with_drg_only == true ? {
-                  "TT-VCN-4-TO-TT-VCN-3-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 3,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "TT-VCN-3-ATTACHMENT"
-                    }
-                  }
-                } : {},
-                (length(var.tt_vcn4_routable_vcns) == 0 || contains(var.tt_vcn4_routable_vcns, "EXA-VCN-1")) && var.exa_vcn1_attach_to_drg == true && local.hub_with_drg_only == true ? {
-                  "TT-VCN-4-TO-EXA-VCN-1-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 4,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "EXA-VCN-1-ATTACHMENT"
-                    }
-                  }
-                } : {},
-                (length(var.tt_vcn4_routable_vcns) == 0 || contains(var.tt_vcn4_routable_vcns, "EXA-VCN-2")) && var.exa_vcn2_attach_to_drg == true && local.hub_with_drg_only == true ? {
-                  "TT-VCN-4-TO-EXA-VCN-2-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 5,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "EXA-VCN-2-ATTACHMENT"
-                    }
-                  }
-                } : {},
-                (length(var.tt_vcn4_routable_vcns) == 0 || contains(var.tt_vcn4_routable_vcns, "EXA-VCN-3")) && var.exa_vcn3_attach_to_drg == true && local.hub_with_drg_only == true ? {
-                  "TT-VCN-4-TO-EXA-VCN-3-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 6,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "EXA-VCN-3-ATTACHMENT"
-                    }
-                  }
-                } : {},
-                (length(var.tt_vcn4_routable_vcns) == 0 || contains(var.tt_vcn4_routable_vcns, "OKE-VCN-1")) && var.oke_vcn1_attach_to_drg == true && local.hub_with_drg_only == true ? {
-                  "TT-VCN-4-TO-OKE-VCN-1-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 7,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "OKE-VCN-1-ATTACHMENT"
-                    }
-                  }
-                } : {},
-                (length(var.tt_vcn4_routable_vcns) == 0 || contains(var.tt_vcn4_routable_vcns, "OKE-VCN-2")) && var.oke_vcn2_attach_to_drg == true && local.hub_with_drg_only == true ? {
-                  "TT-VCN-4-TO-OKE-VCN-2-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 8,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "OKE-VCN-2-ATTACHMENT"
-                    }
-                  }
-                } : {},
-                (length(var.tt_vcn4_routable_vcns) == 0 || contains(var.tt_vcn4_routable_vcns, "OKE-VCN-3")) && var.oke_vcn3_attach_to_drg == true && local.hub_with_drg_only == true ? {
-                  "TT-VCN-4-TO-OKE-VCN-3-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 9,
-                    match_criteria = {
-                      match_type         = "DRG_ATTACHMENT_ID",
-                      attachment_type    = "VCN",
-                      drg_attachment_key = "OKE-VCN-3-ATTACHMENT"
-                    }
-                  }
-                } : {},
-                var.tt_vcn3_onprem_route_enable == true && var.tt_vcn3_attach_to_drg && local.hub_with_drg_only == true && (length(regexall("FASTCONNECT", upper(var.on_premises_connection_option))) > 0) ? {
-                  "TT-VCN-4-TO-FC-VIRTUAL-CIRCUIT-STMT" = {
-                    action   = "ACCEPT",
-                    priority = 10,
-                    match_criteria = {
-                      match_type      = "DRG_ATTACHMENT_TYPE",
-                      attachment_type = "VIRTUAL_CIRCUIT",
-                    }
-                  }
-                } : {},
-                var.tt_vcn3_onprem_route_enable == true && var.tt_vcn3_attach_to_drg && local.hub_with_drg_only == true && (length(regexall("IPSEC", upper(var.on_premises_connection_option))) > 0) ? {
-                  "TT-VCN-4-TO-IPSEC-STMT" = {
                     action   = "ACCEPT",
                     priority = 11,
                     match_criteria = {

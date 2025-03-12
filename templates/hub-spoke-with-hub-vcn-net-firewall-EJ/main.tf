@@ -139,6 +139,6 @@ module "core_lz" {
   # ----- Security
   # ------------------------------------------------------
   enable_cloud_guard            = false
-  enable_service_connector      = false
+  enable_service_connector      = true
   service_connector_target_kind = "streaming"
 }

@@ -1373,7 +1373,7 @@ locals {
                 src_type    = "CIDR_BLOCK"
                 }
               } : {},
-              local.add_tt_vcn4 == true && var.tt_vcn4_attach_to_drg == true ? { for cidr in var.tt_vcn4_cidrs : "INGRESS-FROM-TT-VCN-3-${replace(replace(cidr, ".", ""), "/", "")}-RULE" => {
+              local.add_tt_vcn4 == true && var.tt_vcn4_attach_to_drg == true ? { for cidr in var.tt_vcn4_cidrs : "INGRESS-FROM-TT-VCN-4-${replace(replace(cidr, ".", ""), "/", "")}-RULE" => {
                 description = "Ingress from ${coalesce(var.tt_vcn4_name, "${var.service_label}-three-tier-vcn-4")}."
                 stateless   = false
                 protocol    = "TCP"

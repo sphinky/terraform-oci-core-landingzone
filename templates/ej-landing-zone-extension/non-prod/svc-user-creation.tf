@@ -1,6 +1,6 @@
 resource "oci_identity_domains_user" "svc_user" {
     #Required
-    idcs_endpoint = local.default_domain_url
+    idcs_endpoint = var.default_domain_url
     schemas = ["urn:ietf:params:scim:schemas:core:2.0:User"]
     user_name = "svc-deploy-user-${var.app_name}"
     /* Note: In most cases, a primary email is REQUIRED to create a user. Otherwise you might get a 400 error. Please see "emails" block below. */

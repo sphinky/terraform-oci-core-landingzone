@@ -150,7 +150,7 @@ locals {
   ## deploy grants on Security compartment
   deploy_grants_on_security_cmp = [
     "allow group ${join(",", local.devops_group_name)} to use vaults in compartment ${local.security_compartment_name}",
-    #"allow group ${join(",",local.devops_group_name)} to inspect keys in compartment ${local.security_compartment_name}",
+    "allow group ${join(",",local.devops_group_name)} to inspect keys in compartment ${local.security_compartment_name}",
     "allow group ${join(",", local.devops_group_name)} to manage instance-images in compartment ${local.security_compartment_name}",
     "allow group ${join(",", local.devops_group_name)} to read vss-family in compartment ${local.security_compartment_name}",
     "allow group ${join(",", local.devops_group_name)} to use bastion in compartment ${local.security_compartment_name}",

@@ -18,6 +18,10 @@ variable "enclosing_compartment_name" {
   type = string
 }
 
+variable "svc_user_public_key" {
+  type = string
+}
+
 module "lz_groups" {
   source               = "github.com/oci-landing-zones/terraform-oci-modules-iam//groups?ref=v0.2.7"
   count                = 1
@@ -41,6 +45,14 @@ module "lz_policies" {
   tenancy_ocid           = var.tenancy_ocid
   policies_configuration = local.policies_configuration
 }
+
+
+resource "oci_identity_user" "terraform_user" {
+    compartment_id = "<TENANCY_OCID>"
+    description = "Terraform User"
+    name = "Terraform_user"
+}
+
 
 locals {
   cmps_defined_tags      = null

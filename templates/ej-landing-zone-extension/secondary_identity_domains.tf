@@ -30,7 +30,6 @@ module "lz_clone_identity_domain" {
 locals{
   new_identity_domain_license_type = "free"
 
-
 identity_domains_prod_configuration = {
     identity_domains : {
       PROD-DOMAIN : {

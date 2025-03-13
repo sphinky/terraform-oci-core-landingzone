@@ -61,7 +61,7 @@ locals {
       children : {}
     }
   }
-  network_compartment_name  = "ej-networking-cmp"
+  network_compartment_name  = "ej-network-cmp"
   security_compartment_name = "ej-security-cmp"
 
   all_enclosed_compartments = merge(local.app_cmp)

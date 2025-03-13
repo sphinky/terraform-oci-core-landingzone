@@ -178,6 +178,7 @@ locals {
   ## All devops grants
   devops_grants = concat(local.deploy_grants_on_app_cmp)
 
+# TODO one policy per application?
   app_policies_in_enclosing_cmp = {
     ("ej-devops-policy") = {
       compartment_id = var.enclosing_compartment_id

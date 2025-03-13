@@ -6,6 +6,6 @@ locals {
   private_key_password = ""
   # private_key        = ""    # Replace with user private key.
   region                     = "uk-london-1"
-  enclosing_compartment_id   = ""  #that's top compartment of the landing zone
-  lz_security_compartment_id = ""   #that's the comrpartment that will contain the secondary identity domains for keystone workloads
+  enclosing_compartment_id   = "ocid1.compartment.oc1..aaaaaaaaegil5on3wbgrupnprtd3swgws45kcmf2uaatmrxwj5ioidw6yf7a"  #that's top compartment of the landing zone
+  lz_security_compartment_id = "ocid1.compartment.oc1..aaaaaaaapxcsokg3kxixulklpcxxodt74usex2dweihvhbsegzwgna2dkdfa"   #that's the comrpartment that will contain the secondary identity domains for keystone workloads
 }

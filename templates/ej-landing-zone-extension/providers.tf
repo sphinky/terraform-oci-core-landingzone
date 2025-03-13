@@ -9,7 +9,7 @@ provider "oci" {
   user_ocid        = local.user_ocid
   fingerprint      = local.fingerprint
   private_key_path = local.private_key_path
-  #private_key           = local.private_key
+  #private_key     = local.private_key
   ignore_defined_tags = ["Oracle-Tags.CreatedBy", "Oracle-Tags.CreatedOn"]
 }
 
@@ -18,7 +18,6 @@ terraform {
   required_providers {
     oci = {
       source = "oracle/oci"
-      #configuration_aliases = [oci.home]
     }
   }
 }

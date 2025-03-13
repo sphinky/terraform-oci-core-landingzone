@@ -72,6 +72,8 @@ locals {
   }
 
   # groups
+  # mapped to entraid
+  # TODO add mapping code
   devops_group_name = "ej-devops-${app_name}-grp"
   devops_group = {
     ("DEVOPS_GROUP") = {
@@ -83,6 +85,11 @@ locals {
     }
   }
 
+  # local group
+  # contains one local user with an api key.
+  # that user will not have console ui capability.. no access to console
+  # supply public key as input
+  # TODO add code to create user
   deploy_group_name = "ej-deploy-${app_name}-grp"
   deploy_group = {
     ("DEPLOY_GROUP") = {

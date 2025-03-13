@@ -7,3 +7,7 @@ module "lz_new_identity_domain" {
   identity_domain_groups_configuration         = local.identity_domain_groups_configuration
   identity_domain_dynamic_groups_configuration = local.identity_domain_dynamic_groups_configuration
 }
+
+
+
+### TOD add domain configfuration

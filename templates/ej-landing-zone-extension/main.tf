@@ -62,6 +62,6 @@ RQIDAQAB
 -----END PUBLIC KEY-----
 EOT
   # can change
-  devops_group_name = "egr-12000043dv01-devops"
+  devops_group_name = "egr-1200004dv01-devops"
 }
 

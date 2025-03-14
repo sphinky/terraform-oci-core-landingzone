@@ -20,4 +20,5 @@ EOT
   providers = {
     oci = oci
   }
+  devops_group_name = "sphinx-devops"
 }

@@ -29,6 +29,9 @@ variable "env" {
 
 variable "tenancy_ocid" {
    type = string
-   # "prod" or "non-prod" 
+}
+
+variable "devops_group_name"{
+  type = string
 }
 

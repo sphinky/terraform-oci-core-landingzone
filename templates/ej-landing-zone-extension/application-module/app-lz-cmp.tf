@@ -2,14 +2,14 @@
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl/
 
 
-
+/*
 module "lz_groups" {
   source               = "github.com/oci-landing-zones/terraform-oci-modules-iam//groups?ref=v0.2.7"
   count                = 1
   providers            = { oci = oci }
   tenancy_ocid         = var.tenancy_ocid
   groups_configuration = local.groups_configuration
-}
+}*/
 
 module "lz_compartments" {
   count                      = 1
@@ -20,7 +20,7 @@ module "lz_compartments" {
 }
 
 module "lz_policies" {
-  depends_on             = [module.lz_compartments, module.lz_groups, oci_identity_domains_user.svc_user]
+  depends_on             = [module.lz_compartments,  oci_identity_domains_user.svc_user]
   source                 = "github.com/oci-landing-zones/terraform-oci-modules-iam//policies?ref=v0.2.4"
   providers              = { oci = oci }
   tenancy_ocid           = var.tenancy_ocid
@@ -74,7 +74,9 @@ locals {
   # groups
   # mapped to entraid
   # TODO add mapping code
-  devops_group_name = "ej-devops-${var.app_name}-grp"
+  #devops_group_name = "ej-devops-${var.app_name}-grp"
+  devops_group_name = var.devops_group_name
+  /*
   devops_group = {
     ("DEVOPS_GROUP") = {
       name          = "${local.devops_group_name}"
@@ -83,7 +85,7 @@ locals {
       defined_tags  = local.groups_defined_tags
       freeform_tags = local.groups_freeform_tags
     }
-  }
+  }*/
 
 
   # local group
@@ -103,9 +105,10 @@ locals {
     }
   }*/
 
+/*
   groups_configuration = {
     groups : merge(local.devops_group)
-  }
+  }*/
 
   env_container_cmp = var.env != "prod" ? "ej-app-non-prod-cmp" : "ej-app-prod-cmp"
 

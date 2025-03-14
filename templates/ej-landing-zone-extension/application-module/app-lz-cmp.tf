@@ -66,8 +66,9 @@ locals {
 
   all_enclosed_compartments = merge(local.app_cmp)
 
+  env_container_cmp_id = var.env == "prod" ? var.prod_compartment_id : var.non_prod_compartment_id
   enclosed_compartments_configuration = {
-    default_parent_id : var.enclosing_compartment_id
+    default_parent_id : local.env_container_cmp_id
     compartments : local.all_enclosed_compartments
   }
 

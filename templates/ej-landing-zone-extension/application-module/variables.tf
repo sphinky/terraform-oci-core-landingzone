@@ -14,6 +14,14 @@ variable "enclosing_compartment_name" {
   type = string
 }
 
+variable "prod_compartment_id" {
+  type = string
+}
+
+variable "non_prod_compartment_id" {
+  type = string
+}
+
 variable "svc_user_public_key" {
   type = string
 }

@@ -42,7 +42,6 @@ resource "oci_identity_domains_api_key" "test_my_api_key" {
   key           = var.svc_user_public_key
   schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:apikey"]
 
-
   user {
     #Optional
     ocid  = oci_identity_domains_user.svc_user.ocid

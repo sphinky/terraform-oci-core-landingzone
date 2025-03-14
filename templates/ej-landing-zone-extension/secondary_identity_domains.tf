@@ -1,7 +1,7 @@
 module "lz_prod_identity_domain" {
   source                                       = "github.com/oci-landing-zones/terraform-oci-modules-iam//identity-domains?ref=v0.2.4"
-  count                                        =  1 
-  providers                                    = { oci = oci}
+  count                                        = 1
+  providers                                    = { oci = oci }
   tenancy_ocid                                 = local.tenancy_ocid
   identity_domains_configuration               = local.identity_domains_prod_configuration
   identity_domain_groups_configuration         = local.identity_domain_groups_prod_configuration
@@ -10,16 +10,17 @@ module "lz_prod_identity_domain" {
 
 module "lz_dev_identity_domain" {
   source                                       = "github.com/oci-landing-zones/terraform-oci-modules-iam//identity-domains?ref=v0.2.4"
-  count                                        =  1 
+  count                                        = 1
   providers                                    = { oci = oci }
   tenancy_ocid                                 = local.tenancy_ocid
   identity_domains_configuration               = local.identity_domains_dev_configuration
   identity_domain_groups_configuration         = local.identity_domain_groups_dev_configuration
   identity_domain_dynamic_groups_configuration = local.identity_domain_dynamic_groups_dev_configuration
 }
+
 module "lz_clone_identity_domain" {
   source                                       = "github.com/oci-landing-zones/terraform-oci-modules-iam//identity-domains?ref=v0.2.4"
-  count                                        =  1 
+  count                                        = 1
   providers                                    = { oci = oci }
   tenancy_ocid                                 = local.tenancy_ocid
   identity_domains_configuration               = local.identity_domains_clone_configuration
@@ -27,10 +28,10 @@ module "lz_clone_identity_domain" {
   identity_domain_dynamic_groups_configuration = local.identity_domain_dynamic_groups_clone_configuration
 }
 
-locals{
+locals {
   new_identity_domain_license_type = "free"
 
-identity_domains_prod_configuration = {
+  identity_domains_prod_configuration = {
     identity_domains : {
       PROD-DOMAIN : {
         compartment_id                   = local.lz_security_compartment_id
@@ -41,6 +42,7 @@ identity_domains_prod_configuration = {
       }
     }
   }
+  
   identity_domain_groups_prod_configuration = {
     default_identity_domain_id : "PROD-DOMAIN"
     groups : {}
@@ -83,6 +85,7 @@ identity_domains_prod_configuration = {
       }
     }
   }
+
   identity_domain_groups_clone_configuration = {
     default_identity_domain_id : "CLONE-DOMAIN"
     groups : {}
@@ -92,7 +95,4 @@ identity_domains_prod_configuration = {
     default_identity_domain_id : "CLONE-DOMAIN"
     dynamic_groups : {}
   }
-
 }
-
-### TOD add domain configfuration

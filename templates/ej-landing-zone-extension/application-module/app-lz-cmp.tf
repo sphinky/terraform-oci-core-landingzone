@@ -93,6 +93,7 @@ locals {
   ###################################
   ## deploy grants on APP compartment
   ###################################
+  
   deploy_grants_on_app_cmp = [
     "allow group ${local.devops_group_name} to read all-resources in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
     "allow group ${local.devops_group_name} to manage functions-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
@@ -143,7 +144,7 @@ locals {
     "allow group ${local.devops_group_name} to read logging-family in compartment ${local.security_compartment_name}"
   ]
 
-  ## deploy grants in tenancy
+  ## deploy grants on Enclosing Compartment
   deploy_grants_on_tenancy = [
     "allow group ${local.devops_group_name} to read app-catalog-listing in ${var.enclosing_compartment_name}",
     "allow group ${local.devops_group_name} to read instance-images in ${var.enclosing_compartment_name}",
@@ -163,7 +164,7 @@ locals {
   ## All devops grants
   devops_grants = concat(local.deploy_grants_on_app_cmp)
 
-# TODO one policy per application?
+  # TODO one policy per application?
   app_policies_in_enclosing_cmp = {
     ("ej-devops-policy") = {
       compartment_id = var.enclosing_compartment_id

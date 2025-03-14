@@ -51,6 +51,6 @@ resource "oci_identity_domains_api_key" "test_my_api_key" {
   user {
     #Optional
     ocid  = oci_identity_domains_user.svc_user.ocid
-    value = oci_identity_domains_user.svc_user.ocid
+    value = oci_identity_domains_user.svc_user.id
   }
 }

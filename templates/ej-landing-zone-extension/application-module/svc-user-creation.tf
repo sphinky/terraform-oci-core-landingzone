@@ -9,13 +9,11 @@ resource "oci_identity_domains_user" "svc_user" {
 
   #Optional
   #active = true
-name {
+  name {
     #Required
     family_name = "reagan"
+    given_name  = "ronald"
 
-    
-    given_name       = "ronald"
-    
   }
   description  = "deploy user"
   display_name = "deploy-user-${var.app_name}"
@@ -30,7 +28,7 @@ name {
     primary = true
   }
 
- /* urnietfparamsscimschemasoracleidcsextensioncapabilities_user {
+  urnietfparamsscimschemasoracleidcsextensioncapabilities_user {
     #Optional
     # this means that this svc user ONLY can use API keys... 
     can_use_api_keys                 = true
@@ -40,7 +38,7 @@ name {
     can_use_db_credentials           = false
     can_use_oauth2client_credentials = false
     can_use_smtp_credentials         = false
-  }*/
+  }
 }
 
 resource "oci_identity_domains_api_key" "test_my_api_key" {

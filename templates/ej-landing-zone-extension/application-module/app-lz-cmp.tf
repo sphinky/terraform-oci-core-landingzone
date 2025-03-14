@@ -20,12 +20,27 @@ module "lz_compartments" {
 }
 
 module "lz_policies" {
-  depends_on             = [module.lz_compartments, module.lz_groups]
+  depends_on             = [module.lz_compartments, module.lz_groups, oci_identity_domains_user.svc_user]
   source                 = "github.com/oci-landing-zones/terraform-oci-modules-iam//policies?ref=v0.2.4"
   providers              = { oci = oci }
   tenancy_ocid           = var.tenancy_ocid
   policies_configuration = local.policies_configuration
 }
+
+
+resource "oci_identity_domains_group" "deploy" {
+  depends_on = [oci_identity_domains_user.svc_user]
+  #Required
+  display_name  = local.deploy_group_name
+  idcs_endpoint = var.default_domain_url
+  schemas       = ["urn:ietf:params:scim:schemas:core:2.0:Group"]
+  members {
+    #Required
+    type  = "User"
+    value = oci_identity_domains_user.svc_user.id
+  }
+}
+
 
 locals {
   cmps_defined_tags      = null
@@ -63,39 +78,40 @@ locals {
   devops_group = {
     ("DEVOPS_GROUP") = {
       name          = "${local.devops_group_name}"
-      description   = "Core Landing Zone group for storage services management."
+      description   = "DEVOPS group for application ${var.app_name}"
       members       = []
       defined_tags  = local.groups_defined_tags
       freeform_tags = local.groups_freeform_tags
     }
   }
+
 
   # local group
   # contains one local user with an api key.
   # that user will not have console ui capability.. no access to console
   # supply public key as input
-  # TODO add code to create user
   deploy_group_name = "ej-deploy-${var.app_name}-grp"
+  /*
   deploy_group = {
     ("DEPLOY_GROUP") = {
       name          = "${local.deploy_group_name}"
-      description   = "Core Landing Zone group for storage services management."
-      members       = []
+      description   = "DEPLOY group for application ${var.app_name}"
+      #members       = [oci_identity_domains_user.svc_user.id]
+      memebers=["12121"]
       defined_tags  = local.groups_defined_tags
       freeform_tags = local.groups_freeform_tags
     }
-  }
+  }*/
 
   groups_configuration = {
-    groups : merge(local.devops_group, local.deploy_group)
+    groups : merge(local.devops_group)
   }
-
 
   env_container_cmp = var.env != "prod" ? "ej-app-non-prod-cmp" : "ej-app-prod-cmp"
 
-  ###################################
+  #########################################
   ## deploy group grants on APP compartment
-  ###################################
+  #########################################
 
   deploy_grants_on_app_cmp = [
     "allow group ${local.devops_group_name} to read all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
@@ -157,9 +173,9 @@ locals {
   ## All deploy grants
   deploy_grants = concat(local.deploy_grants_on_app_cmp, local.deploy_grants_on_security_cmp, local.deploy_grants_on_security_cmp, local.deploy_grants_on_tenancy)
 
-  ###################################
+  #########################################
   ## devops group grants on app compartment
-  ###################################
+  #########################################
   devops_grants_on_app_cmp = [
     "allow group ${local.devops_group_name} to use all-resources in ${local.env_container_cmp}:${local.app_compartment_name}",
   ]
@@ -179,7 +195,7 @@ locals {
     },
     ("ej-deploy-policy") = {
       compartment_id = var.enclosing_compartment_id
-      name           = "ej-depoy-${var.app_name}-policy"
+      name           = "ej-deploy-${var.app_name}-policy"
       description    = "LZ policy for ${local.deploy_group_name} group to manage infrastructure in compartment ${local.env_container_cmp}:${local.app_compartment_name}."
       defined_tags   = local.policies_defined_tags
       freeform_tags  = local.policies_freeform_tags

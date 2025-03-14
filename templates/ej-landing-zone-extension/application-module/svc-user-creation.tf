@@ -1,10 +1,10 @@
 resource "oci_identity_domains_user" "svc_user" {
 
-  depends_on = [module.lz_groups] ### Explicitly declaring dependencies on the group and compartments modules.
+  #depends_on = [module.lz_groups] ### Explicitly declaring dependencies on the group and compartments modules.
   #Required
   idcs_endpoint = var.default_domain_url
   schemas       = ["urn:ietf:params:scim:schemas:core:2.0:User"]
-  user_name     = "svc-deploy-user-${var.app_name}"
+  user_name     = "deploy-user-${var.app_name}"
   /* Note: In most cases, a primary email is REQUIRED to create a user. Otherwise you might get a 400 error. Please see "emails" block below. */
 
   #Optional

@@ -44,10 +44,12 @@ module "app-12000043dv01" {
   # don't change
   default_domain_url = local.default_domain_url
   # can change
-  app_name = "12000043dv01"
+  app_name = "1200004dv01"
   # can change: (prod or non-prod)
   env = "non-prod"
   # can change
+  # generate a private public key pair using openssl as follows:
+  # open
   svc_user_public_key = <<EOT
 -----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAv5enhxZyAQnwL974UShm

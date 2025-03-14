@@ -11,9 +11,9 @@ resource "oci_identity_domains_user" "svc_user" {
   #active = true
   name {
     #Required
-    family_name = "reagan"
-    given_name  = "ronald"
-
+    given_name = "deploy"
+    family_name="user"
+    
   }
   description  = "deploy user"
   display_name = "deploy-user-${var.app_name}"
@@ -22,7 +22,7 @@ resource "oci_identity_domains_user" "svc_user" {
   emails {
     #Required
     type  = "work"
-    value = "mreabdelhalim@gmail.com"
+    value = "noreply@edwardjones.com"
 
     #Optional
     primary = true

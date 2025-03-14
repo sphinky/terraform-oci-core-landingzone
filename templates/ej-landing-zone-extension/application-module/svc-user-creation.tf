@@ -25,6 +25,7 @@ resource "oci_identity_domains_user" "svc_user" {
 
   urnietfparamsscimschemasoracleidcsextensioncapabilities_user {
     #Optional
+    # this means that this svc user ONLY can use API keys... 
     can_use_api_keys                 = true
     can_use_auth_tokens              = false
     can_use_console_password         = false

@@ -43,19 +43,19 @@ identity_domains_prod_configuration = {
   }
   identity_domain_groups_prod_configuration = {
     default_identity_domain_id : "PROD-DOMAIN"
-    groups : null
+    groups : {}
   }
 
   identity_domain_dynamic_groups_prod_configuration = {
     default_identity_domain_id : "PROD-DOMAIN"
-    dynamic_groups : null
+    dynamic_groups : {}
   }
 
   identity_domains_dev_configuration = {
     identity_domains : {
       DEV-DOMAIN : {
         compartment_id                   = local.lz_security_compartment_id
-        display_name                     = ej-dev-identity-domain
+        display_name                     = "ej-dev-identity-domain"
         description                      = "identity domain for development workloads"
         license_type                     = local.new_identity_domain_license_type
         allow_signing_cert_public_access = false
@@ -64,19 +64,19 @@ identity_domains_prod_configuration = {
   }
   identity_domain_groups_dev_configuration = {
     default_identity_domain_id : "DEV-DOMAIN"
-    groups : null
+    groups : {}
   }
 
   identity_domain_dynamic_groups_dev_configuration = {
     default_identity_domain_id : "DEV-DOMAIN"
-    dynamic_groups : null
+    dynamic_groups : {}
   }
 
   identity_domains_clone_configuration = {
     identity_domains : {
       CLONE-DOMAIN : {
         compartment_id                   = local.lz_security_compartment_id
-        display_name                     = ej-clone-identity-domain
+        display_name                     = "ej-clone-identity-domain"
         description                      = "identity domain for clone workloads"
         license_type                     = local.new_identity_domain_license_type
         allow_signing_cert_public_access = false
@@ -85,12 +85,12 @@ identity_domains_prod_configuration = {
   }
   identity_domain_groups_clone_configuration = {
     default_identity_domain_id : "CLONE-DOMAIN"
-    groups : null
+    groups : {}
   }
 
   identity_domain_dynamic_groups_clone_configuration = {
     default_identity_domain_id : "CLONE-DOMAIN"
-    dynamic_groups : null
+    dynamic_groups : {}
   }
 
 }

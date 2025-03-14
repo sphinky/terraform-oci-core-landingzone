@@ -21,3 +21,13 @@ variable "svc_user_public_key" {
 variable "default_domain_url" {
   type = string
 }
+
+variable "env" {
+   type = string
+   # "prod" or "non-prod" 
+}
+
+variable "tenancy_ocid" {
+   type = string
+   # "prod" or "non-prod" 
+}

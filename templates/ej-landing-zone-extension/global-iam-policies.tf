@@ -1,1 +1,1 @@
-## TODO add db admin and ops groups (one set for production; another for non-prod)
+## TODO add db admin and ops groups (one set for production; another for non-prod) + policies

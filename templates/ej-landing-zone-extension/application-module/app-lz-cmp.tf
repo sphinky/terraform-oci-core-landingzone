@@ -90,39 +90,42 @@ locals {
     groups : merge(local.devops_group, local.deploy_group)
   }
 
+
+  env_container_cmp = var.env != "prod" ? "ej-app-non-prod-cmp" : "ej-app-prod-cmp"
+
   ###################################
-  ## deploy grants on APP compartment
+  ## deploy group grants on APP compartment
   ###################################
-  
+
   deploy_grants_on_app_cmp = [
-    "allow group ${local.devops_group_name} to read all-resources in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage functions-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage api-gateway-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage ons-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage streams in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage cluster-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage alarms in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage metrics in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage logging-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage instance-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to read all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage functions-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage api-gateway-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage ons-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage streams in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage cluster-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage alarms in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage metrics in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage logging-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage instance-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
     # CIS 1.2 - 1.14 Level 2
-    "allow group ${local.devops_group_name} to manage volume-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name} where all{request.permission != 'VOLUME_BACKUP_DELETE', request.permission != 'VOLUME_DELETE', request.permission != 'BOOT_VOLUME_BACKUP_DELETE'}",
-    "allow group ${local.devops_group_name} to manage object-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name} where all{request.permission != 'OBJECT_DELETE', request.permission != 'BUCKET_DELETE'}",
-    "allow group ${local.devops_group_name} to manage file-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name} where all{request.permission != 'FILE_SYSTEM_DELETE', request.permission != 'MOUNT_TARGET_DELETE', request.permission != 'EXPORT_SET_DELETE', request.permission != 'FILE_SYSTEM_DELETE_SNAPSHOT', request.permission != 'FILE_SYSTEM_NFSv3_UNEXPORT'}",
-    "allow group ${local.devops_group_name} to manage repos in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage orm-stacks in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage orm-jobs in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage orm-config-source-providers in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to read audit-events in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to read work-requests in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage bastion-session in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage cloudevents-rules in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to read instance-agent-plugins in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage keys in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to use key-delegate in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to manage secret-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to read autonomous-database-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name}",
-    "allow group ${local.devops_group_name} to read database-family in compartment ej-app-non-prod-cmp:${local.app_compartment_name}"
+    "allow group ${local.devops_group_name} to manage volume-family in compartment ${local.env_container_cmp}:${local.app_compartment_name} where all{request.permission != 'VOLUME_BACKUP_DELETE', request.permission != 'VOLUME_DELETE', request.permission != 'BOOT_VOLUME_BACKUP_DELETE'}",
+    "allow group ${local.devops_group_name} to manage object-family in compartment ${local.env_container_cmp}:${local.app_compartment_name} where all{request.permission != 'OBJECT_DELETE', request.permission != 'BUCKET_DELETE'}",
+    "allow group ${local.devops_group_name} to manage file-family in compartment ${local.env_container_cmp}:${local.app_compartment_name} where all{request.permission != 'FILE_SYSTEM_DELETE', request.permission != 'MOUNT_TARGET_DELETE', request.permission != 'EXPORT_SET_DELETE', request.permission != 'FILE_SYSTEM_DELETE_SNAPSHOT', request.permission != 'FILE_SYSTEM_NFSv3_UNEXPORT'}",
+    "allow group ${local.devops_group_name} to manage repos in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage orm-stacks in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage orm-jobs in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage orm-config-source-providers in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to read audit-events in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to read work-requests in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage bastion-session in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage cloudevents-rules in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to read instance-agent-plugins in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage keys in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to use key-delegate in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to manage secret-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to read autonomous-database-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to read database-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
   ]
   ## deploy grants on Network compartment
   deploy_grants_on_network_cmp = [
@@ -155,10 +158,10 @@ locals {
   deploy_grants = concat(local.deploy_grants_on_app_cmp, local.deploy_grants_on_security_cmp, local.deploy_grants_on_security_cmp, local.deploy_grants_on_tenancy)
 
   ###################################
-  ## devops grants on app compartment
+  ## devops group grants on app compartment
   ###################################
   devops_grants_on_app_cmp = [
-    "allow group ${local.devops_group_name} to use all-resources in ej-app-non-prod-cmp:${local.app_compartment_name}",
+    "allow group ${local.devops_group_name} to use all-resources in ${local.env_container_cmp}:${local.app_compartment_name}",
   ]
 
   ## All devops grants
@@ -169,7 +172,7 @@ locals {
     ("ej-devops-policy") = {
       compartment_id = var.enclosing_compartment_id
       name           = "ej-devops-${var.app_name}-policy"
-      description    = "LZ policy for ${local.devops_group_name} group to manage infrastructure in compartment ej-app-non-prod-cmp:${local.app_compartment_name}."
+      description    = "LZ policy for ${local.devops_group_name} group to manage infrastructure in compartment ${local.env_container_cmp}:${local.app_compartment_name}."
       defined_tags   = local.policies_defined_tags
       freeform_tags  = local.policies_freeform_tags
       statements     = local.devops_grants
@@ -177,7 +180,7 @@ locals {
     ("ej-deploy-policy") = {
       compartment_id = var.enclosing_compartment_id
       name           = "ej-depoy-${var.app_name}-policy"
-      description    = "LZ policy for ${local.deploy_group_name} group to manage infrastructure in compartment ej-app-non-prod-cmp:${local.app_compartment_name}."
+      description    = "LZ policy for ${local.deploy_group_name} group to manage infrastructure in compartment ${local.env_container_cmp}:${local.app_compartment_name}."
       defined_tags   = local.policies_defined_tags
       freeform_tags  = local.policies_freeform_tags
       statements     = local.deploy_grants

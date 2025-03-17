@@ -4,7 +4,7 @@ module "app-1234534pr01" {
   enclosing_compartment_name = "ej-top-cmp"
   prod_compartment_id        = "ocid1.compartment.oc1..aaaaaaaalfkyplfgm33bkbychsiijyd6ecey6j6qlkbodur76tcqezpeddza"
   non_prod_compartment_id    = "ocid1.compartment.oc1..aaaaaaaafdkh3x5cpgglzaijisgocban4nuvburoylbbkjapj5vz4umr35sq"
-  app_name                   = "1234534pr01"
+  app_name                   = "5000pr01"
   default_domain_url         = local.default_domain_url
   env                        = "prod"
   svc_user_public_key        = <<EOT
@@ -22,7 +22,7 @@ EOT
   providers = {
     oci = oci
   }
-  devops_group_name = "sphinx-devops"
+  devops-group-name = "egr-5000pr01-devops"
   # tag values
   full_application_name = "Accenture accelerator application"
   business_product    = "infrastructrue and cloud services"
@@ -52,7 +52,7 @@ module "app-12000043dv01" {
   # don't change
   default_domain_url = local.default_domain_url
   # can change
-  app_name = "1200004dv01"
+  app_name = "5004dv01"
   # can change: (prod or non-prod)
   env = "non-prod"
   # can change
@@ -70,7 +70,7 @@ RQIDAQAB
 -----END PUBLIC KEY-----
 EOT
   # can change
-  devops_group_name = "egr-1200004dv01-devops"
+  devops-group-name = "egr-5004dv01-devops"
   # tag values
   full_application_name = "Accenture accelerator application"
   business_product    = "infrastructrue and cloud services"

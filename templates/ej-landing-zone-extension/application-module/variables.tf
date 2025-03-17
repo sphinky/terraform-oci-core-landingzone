@@ -40,7 +40,7 @@ variable "tenancy_ocid" {
 }
 
 #mapping to existing devops group
-variable "devops_group_name" {
+variable "devops-group-name" {
   type = string
 }
 

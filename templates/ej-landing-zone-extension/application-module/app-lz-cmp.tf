@@ -86,7 +86,7 @@ locals {
   # mapped to entraid
   # TODO add mapping code
   #devops_group_name = "ej-devops-${var.app_name}-grp"
-  devops_group_name_ = var.devops_group_name
+  devops_group_name = var.devops-group-name
   /*
   devops_group = {
     ("DEVOPS_GROUP") = {
@@ -150,12 +150,13 @@ locals {
     "allow group ${local.deploy_group_name} to read work-requests in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
     "allow group ${local.deploy_group_name} to manage bastion-session in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
     "allow group ${local.deploy_group_name} to manage cloudevents-rules in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
-    "allow group ${local.deploy_group_name} to read instance-agent-plugins in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.deploy_group_name} to manage instance-agent-plugins in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
     "allow group ${local.deploy_group_name} to manage keys in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
     "allow group ${local.deploy_group_name} to use key-delegate in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
     "allow group ${local.deploy_group_name} to manage secret-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
-    "allow group ${local.deploy_group_name} to read autonomous-database-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
-    "allow group ${local.deploy_group_name} to read database-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
+    # changed this as deploy group will assume manage db role as well, until we separate it out into a separate group.
+    "allow group ${local.deploy_group_name} to manage autonomous-database-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.deploy_group_name} to manage database-family in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
   ]
   ## deploy grants on Network compartment
   deploy_grants_on_network_cmp = [
@@ -193,18 +194,20 @@ locals {
   ## ADD LZ app admin template policies....
   #########################################
 
+  # default
   devops_grants_on_app_cmp = [
-    "allow group ${local.devops_group_name_} to use all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
+    "allow group ${local.devops_group_name} to use all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
   ]
 
   ## All devops grants
-  devops_grants = concat(local.devops_grants_on_app_cmp)
+  custom_policies = try(local.devops_grants_on_app_cmp_custom["${var.app_name}"], null)
+  devops_grants = concat(local.devops_grants_on_app_cmp, local.custom_policies == null? []: local.custom_policies )
 
   app_policies_in_enclosing_cmp = {
     ("ej-devops-policy") = {
       compartment_id = var.enclosing_compartment_id
       name           = "policy-${var.app_name}-devops"
-      description    = "LZ policy for ${local.devops_group_name_} group to use infrastructure in compartment ${local.env_container_cmp}:${local.app_compartment_name}."
+      description    = "LZ policy for ${local.devops_group_name} group to use infrastructure in compartment ${local.env_container_cmp}:${local.app_compartment_name}."
       defined_tags   = local.policies_defined_tags
       freeform_tags  = local.policies_freeform_tags
       statements     = local.devops_grants

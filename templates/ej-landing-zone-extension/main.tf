@@ -23,6 +23,14 @@ EOT
     oci = oci
   }
   devops_group_name = "sphinx-devops"
+  # tag values
+  full_application_name = "Accenture accelerator application"
+  business_product    = "infrastructrue and cloud services"
+  compliance          = "na"
+  data_classification = "sensitive"
+  risk_score          = "very low"
+  support_team_email  = "cloud_business_office@edwardjones.com"
+  system_class_tier   = "4"
 }
 
 module "app-12000043dv01" {
@@ -63,5 +71,13 @@ RQIDAQAB
 EOT
   # can change
   devops_group_name = "egr-1200004dv01-devops"
+  # tag values
+  full_application_name = "Accenture accelerator application"
+  business_product    = "infrastructrue and cloud services"
+  compliance          = "na"
+  data_classification = "sensitive"
+  risk_score          = "very low"
+  support_team_email  = "cloud_business_office@edwardjones.com"
+  system_class_tier   = "4"
 }
 

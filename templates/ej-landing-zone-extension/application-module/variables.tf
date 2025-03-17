@@ -31,18 +31,44 @@ variable "default_domain_url" {
 }
 
 variable "env" {
-   type = string
-   # "prod" or "non-prod" 
+  type = string
+  # "prod" or "non-prod" 
 }
 
 variable "tenancy_ocid" {
-   type = string
-}
-
-#mapping to existing devops group
-variable "devops_group_name"{
   type = string
 }
 
+#mapping to existing devops group
+variable "devops_group_name" {
+  type = string
+}
 
+#These are the tag values attached to the application compartment
+variable "full_application_name" {
+  type = string
+}
 
+variable "business_product" {
+  type = string
+}
+
+variable "compliance" {
+  type = string
+}
+
+variable "data_classification" {
+  type = string
+}
+
+variable "risk_score" {
+  type = string
+}
+
+variable "support_team_email" {
+  type = string
+}
+
+variable "system_class_tier" {
+  type = string
+}

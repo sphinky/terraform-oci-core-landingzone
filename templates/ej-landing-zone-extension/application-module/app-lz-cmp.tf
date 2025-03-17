@@ -42,10 +42,19 @@ resource "oci_identity_domains_group" "deploy" {
 
 }
 
-
 locals {
-  cmps_defined_tags      = null
-  cmps_freeform_tags     = null
+  cmps_defined_tags = null
+  cmps_freeform_tags = {
+    apm : "${var.app_name}",
+    application_name : "${var.full_application_name}",
+    business_product : "${var.business_product}",
+    compliance : "${var.compliance}",
+    data_classification : "${var.data_classification}",
+    env : "${var.env}",
+    risk_score : "${var.risk_score}",
+    support_team_email : "${var.support_team_email}",
+    system_class_tier : "${var.system_class_tier}"
+  }
   groups_defined_tags    = null
   groups_freeform_tags   = null
   policies_defined_tags  = null
@@ -58,7 +67,7 @@ locals {
       name : "${local.app_compartment_name}",
       description : "Application ${var.app_name} Compartment",
       defined_tags : local.cmps_defined_tags,
-      freeform_tags : local.cmps_freeform_tags,
+      freeform_tags : local.cmps_freeform_tags
       children : {}
     }
   }
@@ -180,8 +189,10 @@ locals {
 
   #########################################
   ## devops group grants on app compartment
+  ## this is what accenture will be using
+  ## ADD LZ app admin template policies....
   #########################################
-  
+
   devops_grants_on_app_cmp = [
     "allow group ${local.devops_group_name_} to use all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
   ]
@@ -197,7 +208,7 @@ locals {
       defined_tags   = local.policies_defined_tags
       freeform_tags  = local.policies_freeform_tags
       statements     = local.devops_grants
-    } ,
+    },
     ("ej-deploy-policy") = {
       compartment_id = var.enclosing_compartment_id
       name           = "policy-${var.app_name}-deploy"

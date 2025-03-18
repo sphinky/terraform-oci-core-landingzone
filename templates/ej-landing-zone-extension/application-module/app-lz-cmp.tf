@@ -124,7 +124,7 @@ locals {
   env_container_cmp = var.env != "prod" ? "ej-app-non-prod-cmp" : "ej-app-prod-cmp"
 
   ###########################################################################
-  ## deploy group grants on APP compartment
+  ## (ONE) deploy group grants on APP compartment
   ###########################################################################
 
   deploy_grants_on_app_cmp = [
@@ -188,8 +188,9 @@ locals {
   ## All deploy grants
   deploy_grants = concat(local.deploy_grants_on_app_cmp, local.deploy_grants_on_security_cmp, local.deploy_grants_on_network_cmp, local.deploy_grants_on_enclosing_cmp)
 
+
   ###################################################################################
-  ## devops group grants on app compartment
+  ## (TWO) devops group grants on app compartment
   ## this is what accenture will be using
   ## ADD LZ app admin template policies....
   ###################################################################################
@@ -203,7 +204,9 @@ locals {
   devops_grants = concat(local.devops_grants_on_app_cmp, local.custom_policies == null? []: local.custom_policies )
 
 
-
+  ###################################################################################
+  ## (THREE) setup policy configuration
+  ###################################################################################
 
   app_policies_in_enclosing_cmp = {
     ("ej-devops-policy") = {

@@ -21,7 +21,6 @@ locals {
       "Allow group ${local.devops_group_name} to manage visualbuilder-instance in compartment ${local.env_container_cmp}:${local.app_compartment_name} where request.permission!='VISUALBUILDER_INSTANCE_DELETE'",
       "Allow group ${local.devops_group_name} to manage process-automation-instance in compartment ${local.env_container_cmp}:${local.app_compartment_name} where request.permission!='PROCESS_AUTOMATION_INSTANCE_DELETE'",
       "Allow group ${local.devops_group_name} to manage objectstorage-private-endpoint in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
-
     ]
 
   }

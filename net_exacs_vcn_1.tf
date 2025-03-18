@@ -3,6 +3,8 @@
 
 locals {
 
+
+ 
   add_exa_vcn1 = var.define_net == true && var.add_exa_vcn1 == true
 
   exa_vcn_1 = local.add_exa_vcn1 == true ? {
@@ -14,6 +16,7 @@ locals {
       dns_label                        = substr(replace(coalesce(var.exa_vcn1_name, "exadata-vcn-1"), "/[^\\w]/", ""), 0, 14)
       block_nat_traffic                = false
       security                         = local.enable_zpr == true ? { zpr_attributes = [{ namespace : "${local.zpr_namespace_name}", attr_name : "net", attr_value : "exa-vcn-1" }] } : null
+      
 
       subnets = {
         "EXA-VCN-1-CLIENT-SUBNET" = {
@@ -25,6 +28,8 @@ locals {
           prohibit_internet_ingress = true
           route_table_key           = "EXA-VCN-1-CLIENT-SUBNET-ROUTE-TABLE"
           security_list_keys        = ["EXA-VCN-1-CLIENT-SUBNET-SL"]
+          
+
         }
         "EXA-VCN-1-BACKUP-SUBNET" = {
           cidr_block                = coalesce(var.exa_vcn1_backup_subnet_cidr, cidrsubnet(var.exa_vcn1_cidrs[0], 4, 1))
@@ -34,6 +39,7 @@ locals {
           ipv6cidr_blocks           = []
           prohibit_internet_ingress = true
           route_table_key           = "EXA-VCN-1-BACKUP-SUBNET-ROUTE-TABLE"
+
         }
       }
 

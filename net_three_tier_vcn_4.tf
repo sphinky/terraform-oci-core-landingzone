@@ -5,6 +5,8 @@
 
 locals {
 
+  network_tags_4 = { env: "clone"}
+
   add_tt_vcn4 = var.define_net == true && var.add_tt_vcn4 == true
 
   tt_vcn_4 = local.add_tt_vcn4 == true ? {
@@ -16,6 +18,7 @@ locals {
       dns_label                        = substr(replace(coalesce(var.tt_vcn4_name, "three-tier-VCN-4"), "/[^\\w]/", ""), 0, 14)
       block_nat_traffic                = false
       security                         = local.enable_zpr == true ? { zpr_attributes = [{ namespace : "${local.zpr_namespace_name}", attr_name : "net", attr_value : "tt-VCN-4" }] } : null
+      freeform_tags       = local.network_tags_4
 
       subnets = merge(
         {
@@ -27,6 +30,8 @@ locals {
             ipv6cidr_blocks           = []
             prohibit_internet_ingress = (local.hub_with_vcn == true && var.tt_vcn4_attach_to_drg == true) ? true : var.tt_vcn4_web_subnet_is_private
             route_table_key           = "TT-VCN-4-WEB-SUBNET-ROUTE-TABLE"
+            freeform_tags       = local.network_tags_4
+
           }
         },
         {
@@ -38,6 +43,8 @@ locals {
             ipv6cidr_blocks           = []
             prohibit_internet_ingress = true
             route_table_key           = "TT-VCN-4-APP-SUBNET-ROUTE-TABLE"
+            freeform_tags       = local.network_tags_4
+
           }
         },
         {
@@ -49,6 +56,8 @@ locals {
             ipv6cidr_blocks           = []
             prohibit_internet_ingress = true
             route_table_key           = "TT-VCN-4-DB-SUBNET-ROUTE-TABLE"
+            freeform_tags       = local.network_tags_4
+
           }
         },
         var.deploy_tt_vcn4_bastion_subnet == true ? {
@@ -61,6 +70,8 @@ locals {
             prohibit_internet_ingress = var.tt_vcn4_bastion_is_access_via_public_endpoint == true ? false : true
             route_table_key           = "TT-VCN-4-BASTION-SUBNET-ROUTE-TABLE"
             security_list_keys        = var.tt_vcn4_bastion_is_access_via_public_endpoint == false ? ["TT-VCN-4-BASTION-SUBNET-SL"] : []
+            freeform_tags       = local.network_tags_4
+
           }
         } : {}
       ) # merge function

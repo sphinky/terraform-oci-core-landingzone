@@ -55,7 +55,7 @@ module "core_lz" {
   hub_deployment_option = "VCN or on-premises connectivity routing through DMZ VCN with Network Virtual Appliance (DRG and DMZ VCN will be created)"
 
   # --- Firewall deployment options.
-  hub_vcn_deploy_net_appliance_option = "OCI Native Firewall"
+  hub_vcn_deploy_net_appliance_option = "Don't deploy any network appliance at this time"
   enable_native_firewall_threat_log   = true
   enable_native_firewall_traffic_log  = true
   oci_nfw_ip_ocid                     = "ocid1.privateip.oc1.uk-london-1.abwgiljtv2hzcgkadps2my3xw5ct5sxh7tmti23zzvduwph3a2xjeiigdj4a" 

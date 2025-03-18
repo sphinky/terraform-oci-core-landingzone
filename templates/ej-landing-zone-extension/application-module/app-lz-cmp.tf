@@ -76,7 +76,7 @@ locals {
 
   all_enclosed_compartments = merge(local.app_cmp)
 
-  env_container_cmp_id = var.env == "prod" ? var.prod_compartment_id : var.non_prod_compartment_id
+  env_container_cmp_id = ((var.env == "prod")||(var.env =="prod-shared")) ? var.prod_compartment_id : var.non_prod_compartment_id
   enclosed_compartments_configuration = {
     default_parent_id : local.env_container_cmp_id
     compartments : local.all_enclosed_compartments
@@ -161,7 +161,7 @@ locals {
   ## deploy grants on Network compartment
   deploy_grants_on_network_cmp = [
     "allow group ${local.deploy_group_name} to read virtual-network-family in compartment ${local.network_compartment_name}",
-    "allow group ${local.deploy_group_name} to use subnets in compartment ${local.network_compartment_name}",
+    "allow group ${local.deploy_group_name} to use subnets in compartment ${local.network_compartment_name} where target.resource.tag.env='${var.env}'",
     "allow group ${local.deploy_group_name} to use network-security-groups in compartment ${local.network_compartment_name}",
     "allow group ${local.deploy_group_name} to use vnics in compartment ${local.network_compartment_name}",
     "allow group ${local.deploy_group_name} to manage private-ips in compartment ${local.network_compartment_name}",
@@ -196,7 +196,7 @@ locals {
   ###################################################################################
   # default
   devops_grants_on_app_cmp = [
-    "allow group ${local.devops_group_name} to use all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
+    "allow group ${local.devops_group_name} to use all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}"    
   ]
 
   ## All devops grants INCLUDING Custom Application-specific policies picked up from key-map in custom policies file...

@@ -1,8 +1,8 @@
 resource "oci_identity_user" "user" {
   name           = "prisma-cloud-user"
   description    = "user created by terraform"
-  compartment_id = "${local.tenancy_ocid}"
-  email = "noreply@edwardjones.com"
+  compartment_id = local.tenancy_ocid
+  email          = "noreply@edwardjones.com"
 }
 
 resource "oci_identity_api_key" "api-key" {

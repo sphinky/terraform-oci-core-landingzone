@@ -8,7 +8,7 @@ locals {
       "Allow group ${local.devops_group_name} to manage object-family  in compartment ${local.env_container_cmp}:${local.app_compartment_name} where all {request.permission!='BUCKET_DELETE',request.permission!='BUCKET_CREATE'}",
       "Allow group ${local.devops_group_name} to manage autonomous-database-family  in compartment ${local.env_container_cmp}:${local.app_compartment_name} where all {request.permission!='AUTONOMOUS_DATABASE_DELETE',request.permission!='AUTONOMOUS_DATABASE_CREATE'}",
       "Allow group ${local.devops_group_name} to inspect work-requests in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
-      "Allow group ${local.devops_group_name} to manage objectstorage-private-endpoint in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
+     # "Allow group ${local.devops_group_name} to manage objectstorage-private-endpoint in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
     ],
     # these are the custom policies of the OIC application (05004)
     ("5004dv01") = [
@@ -20,9 +20,8 @@ locals {
       "Allow group ${local.devops_group_name} to inspect work-requests in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
       "Allow group ${local.devops_group_name} to manage visualbuilder-instance in compartment ${local.env_container_cmp}:${local.app_compartment_name} where request.permission!='VISUALBUILDER_INSTANCE_DELETE'",
       "Allow group ${local.devops_group_name} to manage process-automation-instance in compartment ${local.env_container_cmp}:${local.app_compartment_name} where request.permission!='PROCESS_AUTOMATION_INSTANCE_DELETE'",
-      "Allow group ${local.devops_group_name} to manage objectstorage-private-endpoint in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
+      #"Allow group ${local.devops_group_name} to manage objectstorage-private-endpoint in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
     ]
-
   }
 }
 

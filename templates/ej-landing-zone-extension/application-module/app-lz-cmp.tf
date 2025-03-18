@@ -123,9 +123,9 @@ locals {
 
   env_container_cmp = var.env != "prod" ? "ej-app-non-prod-cmp" : "ej-app-prod-cmp"
 
-  #########################################
+  ###########################################################################
   ## deploy group grants on APP compartment
-  #########################################
+  ###########################################################################
 
   deploy_grants_on_app_cmp = [
     "allow group ${local.deploy_group_name} to read all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
@@ -188,20 +188,22 @@ locals {
   ## All deploy grants
   deploy_grants = concat(local.deploy_grants_on_app_cmp, local.deploy_grants_on_security_cmp, local.deploy_grants_on_network_cmp, local.deploy_grants_on_enclosing_cmp)
 
-  #########################################
+  ###################################################################################
   ## devops group grants on app compartment
   ## this is what accenture will be using
   ## ADD LZ app admin template policies....
-  #########################################
-
+  ###################################################################################
   # default
   devops_grants_on_app_cmp = [
     "allow group ${local.devops_group_name} to use all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
   ]
 
-  ## All devops grants
+  ## All devops grants INCLUDING Custom Application-specific policies picked up from key-map in custom policies file...
   custom_policies = try(local.devops_grants_on_app_cmp_custom["${var.app_name}"], null)
   devops_grants = concat(local.devops_grants_on_app_cmp, local.custom_policies == null? []: local.custom_policies )
+
+
+
 
   app_policies_in_enclosing_cmp = {
     ("ej-devops-policy") = {

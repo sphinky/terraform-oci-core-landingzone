@@ -161,7 +161,7 @@ locals {
   ## deploy grants on Network compartment
   deploy_grants_on_network_cmp = [
     "allow group ${local.deploy_group_name} to read virtual-network-family in compartment ${local.network_compartment_name}",
-    "allow group ${local.deploy_group_name} to use subnets in compartment ${local.network_compartment_name} where target.resource.tag.env='${var.env}'",
+    "allow group ${local.deploy_group_name} to use subnets in compartment ${local.network_compartment_name} where target.resource.tag.ej.env='${var.env}'",
     "allow group ${local.deploy_group_name} to use network-security-groups in compartment ${local.network_compartment_name}",
     "allow group ${local.deploy_group_name} to use vnics in compartment ${local.network_compartment_name}",
     "allow group ${local.deploy_group_name} to manage private-ips in compartment ${local.network_compartment_name}",

@@ -3,7 +3,7 @@
 
 locals {
 
- network_tags_1 = { env: "prod-shared"}
+ network_tags_1 = { "ej.env": "prod-shared"}
   add_tt_vcn1 = var.define_net == true && var.add_tt_vcn1 == true
 
   tt_vcn_1 = local.add_tt_vcn1 == true ? {
@@ -15,7 +15,7 @@ locals {
       dns_label                        = substr(replace(coalesce(var.tt_vcn1_name, "three-tier-vcn-1"), "/[^\\w]/", ""), 0, 14)
       block_nat_traffic                = false
       security                         = local.enable_zpr == true ? { zpr_attributes = [{ namespace : "${local.zpr_namespace_name}", attr_name : "net", attr_value : "tt-vcn-1" }] } : null
-      freeform_tags       = local.network_tags_1
+      defined_tags       = local.network_tags_1
       subnets = merge(
         {
           "TT-VCN-1-WEB-SUBNET" = {
@@ -26,7 +26,7 @@ locals {
             ipv6cidr_blocks           = []
             prohibit_internet_ingress = (local.hub_with_vcn == true && var.tt_vcn1_attach_to_drg == true) ? true : var.tt_vcn1_web_subnet_is_private
             route_table_key           = "TT-VCN-1-WEB-SUBNET-ROUTE-TABLE"
-            freeform_tags       = local.network_tags_1
+            defined_tags       = local.network_tags_1
           }
         },
         {
@@ -38,7 +38,7 @@ locals {
             ipv6cidr_blocks           = []
             prohibit_internet_ingress = true
             route_table_key           = "TT-VCN-1-APP-SUBNET-ROUTE-TABLE"
-            freeform_tags       = local.network_tags_1
+            defined_tags       = local.network_tags_1
           }
         },
         {
@@ -50,7 +50,7 @@ locals {
             ipv6cidr_blocks           = []
             prohibit_internet_ingress = true
             route_table_key           = "TT-VCN-1-DB-SUBNET-ROUTE-TABLE"
-            freeform_tags       = local.network_tags_1
+            defined_tags       = local.network_tags_1
           }
         },
         var.deploy_tt_vcn1_bastion_subnet == true ? {
@@ -63,7 +63,7 @@ locals {
             prohibit_internet_ingress = var.tt_vcn1_bastion_is_access_via_public_endpoint == true ? false : true
             route_table_key           = "TT-VCN-1-BASTION-SUBNET-ROUTE-TABLE"
             security_list_keys        = var.tt_vcn1_bastion_is_access_via_public_endpoint == false ? ["TT-VCN-1-BASTION-SUBNET-SL"] : []
-            freeform_tags       = local.network_tags_1
+            defined_tags       = local.network_tags_1
           }
         } : {}
       ) # merge function

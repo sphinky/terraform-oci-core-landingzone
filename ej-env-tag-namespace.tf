@@ -1,7 +1,7 @@
 module "ej_env_tag_namespace" {
   source             = "github.com/oci-landing-zones/terraform-oci-modules-governance//tags?ref=v0.1.4"
   tenancy_ocid       = var.tenancy_ocid
-  tags_configuration = local.tags_configuration
+  tags_configuration = local.env_tags_configuration
    providers = { oci = oci}
 }
 

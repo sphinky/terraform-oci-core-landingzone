@@ -3,7 +3,7 @@
 
 locals {
 
- network_tags_1 = { "ej.env": "prod-shared"}
+  network_tags_1 = { "ej.env": "prod-shared"}
   add_tt_vcn1 = var.define_net == true && var.add_tt_vcn1 == true
 
   tt_vcn_1 = local.add_tt_vcn1 == true ? {

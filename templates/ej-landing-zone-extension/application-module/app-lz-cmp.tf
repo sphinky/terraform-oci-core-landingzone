@@ -179,14 +179,18 @@ locals {
   ]
 
   ## deploy grants on Enclosing Compartment
-  deploy_grants_on_enclosing_cmp = [
-    "allow group ${local.deploy_group_name} to read app-catalog-listing in compartment ${var.enclosing_compartment_name}",
-    "allow group ${local.deploy_group_name} to read instance-images in compartment ${var.enclosing_compartment_name}",
-    "allow group ${local.deploy_group_name} to read repos in compartment ${var.enclosing_compartment_name}"
+  ## that's a BUG
+  deploy_grants_on_tenancy = [
+    #"allow group ${local.deploy_group_name} to read app-catalog-listing in compartment ${var.enclosing_compartment_name}",
+   # "allow group ${local.deploy_group_name} to read instance-images in compartment ${var.enclosing_compartment_name}",
+    #"allow group ${local.deploy_group_name} to read repos in compartment ${var.enclosing_compartment_name}"
+     "allow group ${local.deploy_group_name} to read app-catalog-listing in tenancy",
+    "allow group ${local.deploy_group_name} to read instance-images in tenancy",
+    "allow group ${local.deploy_group_name} to read repos in tenancy"
   ]
 
   ## All deploy grants
-  deploy_grants = concat(local.deploy_grants_on_app_cmp, local.deploy_grants_on_security_cmp, local.deploy_grants_on_network_cmp, local.deploy_grants_on_enclosing_cmp)
+  deploy_grants = concat(local.deploy_grants_on_app_cmp, local.deploy_grants_on_security_cmp, local.deploy_grants_on_network_cmp)
 
 
   ###################################################################################
@@ -224,6 +228,14 @@ locals {
       defined_tags   = local.policies_defined_tags
       freeform_tags  = local.policies_freeform_tags
       statements     = local.deploy_grants
+    },
+    ("ej-deploy-tenancy-policy") = {
+      compartment_id = var.tenancy_ocid
+      name           = "policy-${var.app_name}-tenancy-deploy"
+      description    = "LZ policy for ${local.deploy_group_name} group to read images and repos in compartment ${local.env_container_cmp}:${local.app_compartment_name}."
+      defined_tags   = local.policies_defined_tags
+      freeform_tags  = local.policies_freeform_tags
+      statements     = local.deploy_grants_on_tenancy
     }
   }
 

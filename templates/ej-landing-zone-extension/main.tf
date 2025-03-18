@@ -55,7 +55,7 @@ module "app-12000043dv01" {
   # can change
   app_name = "5004dv01"
   # can change: (prod or non-prod)
-  env = "non-prod"
+  env = "dev"
   # can change
   # generate a private public key pair using openssl as follows:
   # open

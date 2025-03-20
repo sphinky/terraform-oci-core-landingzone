@@ -39,7 +39,7 @@ module "core_lz" {
   rm_existing_iam_admin_group_name           = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
   rm_existing_cost_admin_group_name          = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
   rm_existing_cred_admin_group_name          = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
-  rm_existing_security_admin_group_name      = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
+  #rm_existing_security_admin_group_name      = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
   rm_existing_ag_admin_group_name            = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
   rm_existing_network_admin_group_name       = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"
   #rm_existing_appdev_admin_group_name       = "ocid1.group.oc1..aaaaaaaanu4eqf6izohqfluwcqsxpj24pnmsq46rrns26yexn32ef377eq7q"

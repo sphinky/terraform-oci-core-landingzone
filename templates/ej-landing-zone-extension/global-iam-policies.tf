@@ -43,14 +43,12 @@ locals {
     "allow group ${local.db_admins_group_prod_name}  to use subnets in compartment ${local.network_compartment_name}",
     "allow group ${local.db_admins_group_prod_name}  to use network-security-groups in compartment ${local.network_compartment_name}",
     "allow group ${local.db_admins_group_prod_name}  to use vnics in compartment ${local.network_compartment_name}"
-
-
   ]
 
   db_admins_grants_on_non_prod_cmp = [
-    "allow group ${local.db_admins_group_non_prod_name} to manage autonomous-databases in compartment ${local.prod_compartment_name}",
-    "allow group ${local.db_admins_group_non_prod_name} to manage autonomous-backups in compartment ${local.prod_compartment_name}",
-    "allow group ${local.db_admins_group_non_prod_name} to manage database-connections in compartment ${local.prod_compartment_name}",
+    "allow group ${local.db_admins_group_non_prod_name} to manage autonomous-databases in compartment ${local.non_prod_compartment_name}",
+    "allow group ${local.db_admins_group_non_prod_name} to manage autonomous-backups in compartment ${local.non_prod_compartment_name}",
+    "allow group ${local.db_admins_group_non_prod_name} to manage database-connections in compartment ${local.non_prod_compartment_name}",
     "allow group ${local.db_admins_group_non_prod_name} to use keys in compartment ${local.security_compartment_name}",
     "allow group ${local.db_admins_group_non_prod_name} to use vaults in compartment ${local.security_compartment_name}",
     "allow group ${local.db_admins_group_non_prod_name} to use virtual-network-family in compartment ${local.network_compartment_name}",

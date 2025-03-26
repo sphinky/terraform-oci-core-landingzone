@@ -37,8 +37,6 @@ module "lz_osmh_policies" {
 }
 
 
-
-
 locals {
 
   prod_compartment_id_values                 = [for comp in tolist(data.oci_identity_compartments.prod_app_compartments.compartments) : "resource.compartment.id = '${comp.id}'"]

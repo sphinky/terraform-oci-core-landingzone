@@ -1,14 +1,15 @@
-module "lz_groups" {
+module "lz_ping_groups" {
   source               = "github.com/oci-landing-zones/terraform-oci-modules-iam//groups?ref=v0.2.7"
   count                = 1
-  providers            = { oci = oci.home }
+  providers            = { oci = oci }
   tenancy_ocid         = local.tenancy_ocid
   groups_configuration = local.groups_configuration
 }
 
 locals {
-  groups_defined_tags  = null
-  groups_freeform_tags = null
+
+  ping_groups_defined_tags  = null
+  ping_groups_freeform_tags = null
 
   #--------------------------------------------------------------------
   #-- OIC Service Admin
@@ -19,8 +20,8 @@ locals {
       name          = "oic-service-admin-group"
       description   = "OIC service admin group."
       members       = []
-      defined_tags  = local.groups_defined_tags
-      freeform_tags = local.groups_freeform_tags
+      defined_tags  = local.ping_groups_defined_tags
+      freeform_tags = local.ping_groups_freeform_tags
     }
   }
 
@@ -32,8 +33,8 @@ locals {
       name          = "oic-service-deployer-group"
       description   = "OIC service deployer group."
       members       = []
-      defined_tags  = local.groups_defined_tags
-      freeform_tags = local.groups_freeform_tags
+      defined_tags  = local.ping_groups_defined_tags
+      freeform_tags = local.ping_groups_freeform_tags
     }
   }
 
@@ -45,8 +46,8 @@ locals {
       name          = "oic-service-user-group"
       description   = "OIC service user group."
       members       = []
-      defined_tags  = local.groups_defined_tags
-      freeform_tags = local.groups_freeform_tags
+      defined_tags  = local.ping_groups_defined_tags
+      freeform_tags = local.ping_groups_freeform_tags
     }
   }
 
@@ -58,8 +59,8 @@ locals {
       name          = "oic-service-monitor-group"
       description   = "OIC service monitor group."
       members       = []
-      defined_tags  = local.groups_defined_tags
-      freeform_tags = local.groups_freeform_tags
+      defined_tags  = local.ping_groups_defined_tags
+      freeform_tags = local.ping_groups_freeform_tags
     }
   }
 

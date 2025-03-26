@@ -1,6 +1,7 @@
 ###################################################################################
   ## OSMH dynamic group configuration
-  ###################################################################################
+  ## 2 x OSMH dynamic groups referencing prod and non-prod instances recreated everytime an application is deployed
+###################################################################################
 
 #get the existing app compartments in the prod/non-prod container compartments using this data source.....
 data "oci_identity_compartments" "prod_app_compartments" {

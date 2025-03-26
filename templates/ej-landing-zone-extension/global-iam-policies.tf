@@ -23,8 +23,8 @@ locals {
   db_admins_group_non_prod_name = "ej-db-admins-non-prod"
 
   # hardcode the prod and non-prod contianer (and security and network) compartment names
-  prod_compartment_name     = "ej-prod-cmp"
-  non_prod_compartment_name = "ej-non-prod-cmp"
+  prod_compartment_name     = "ej-app-prod-cmp"
+  non_prod_compartment_name = "ej-app-non-prod-cmp"
   security_compartment_name = "ej-security-cmp"
   network_compartment_name  = "ej-network-cmp"
 

@@ -2,14 +2,7 @@
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl/
 
 
-/*
-module "lz_groups" {
-  source               = "github.com/oci-landing-zones/terraform-oci-modules-iam//groups?ref=v0.2.7"
-  count                = 1
-  providers            = { oci = oci }
-  tenancy_ocid         = var.tenancy_ocid
-  groups_configuration = local.groups_configuration
-}*/
+
 
 module "lz_compartments" {
   count                      = 1
@@ -41,6 +34,8 @@ resource "oci_identity_domains_group" "deploy" {
   }
 
 }
+
+
 
 locals {
   cmps_defined_tags = null
@@ -76,7 +71,7 @@ locals {
 
   all_enclosed_compartments = merge(local.app_cmp)
 
-  env_container_cmp_id = ((var.env == "prod")||(var.env =="prod-shared")) ? var.prod_compartment_id : var.non_prod_compartment_id
+  env_container_cmp_id = ((var.env == "prod") || (var.env == "prod-shared")) ? var.prod_compartment_id : var.non_prod_compartment_id
   enclosed_compartments_configuration = {
     default_parent_id : local.env_container_cmp_id
     compartments : local.all_enclosed_compartments
@@ -87,16 +82,7 @@ locals {
   # TODO add mapping code
   #devops_group_name = "ej-devops-${var.app_name}-grp"
   devops_group_name = var.devops-group-name
-  /*
-  devops_group = {
-    ("DEVOPS_GROUP") = {
-      name          = "${local.devops_group_name}"
-      description   = "DEVOPS group for application ${var.app_name}"
-      members       = []
-      defined_tags  = local.groups_defined_tags
-      freeform_tags = local.groups_freeform_tags
-    }
-  }*/
+
 
 
   # local group
@@ -104,22 +90,7 @@ locals {
   # that user will not have console ui capability.. no access to console
   # supply public key as input
   deploy_group_name = "grp-${var.app_name}-deploy"
-  /*
-  deploy_group = {
-    ("DEPLOY_GROUP") = {
-      name          = "${local.deploy_group_name}"
-      description   = "DEPLOY group for application ${var.app_name}"
-      #members       = [oci_identity_domains_user.svc_user.id]
-      memebers=["12121"]
-      defined_tags  = local.groups_defined_tags
-      freeform_tags = local.groups_freeform_tags
-    }
-  }*/
 
-  /*
-  groups_configuration = {
-    groups : merge(local.devops_group)
-  }*/
 
   env_container_cmp = var.env != "prod" ? "ej-app-non-prod-cmp" : "ej-app-prod-cmp"
 
@@ -182,9 +153,9 @@ locals {
   ## that's a BUG
   deploy_grants_on_tenancy = [
     #"allow group ${local.deploy_group_name} to read app-catalog-listing in compartment ${var.enclosing_compartment_name}",
-   # "allow group ${local.deploy_group_name} to read instance-images in compartment ${var.enclosing_compartment_name}",
+    # "allow group ${local.deploy_group_name} to read instance-images in compartment ${var.enclosing_compartment_name}",
     #"allow group ${local.deploy_group_name} to read repos in compartment ${var.enclosing_compartment_name}"
-     "allow group ${local.deploy_group_name} to read app-catalog-listing in tenancy",
+    "allow group ${local.deploy_group_name} to read app-catalog-listing in tenancy",
     "allow group ${local.deploy_group_name} to read instance-images in tenancy",
     "allow group ${local.deploy_group_name} to read repos in tenancy"
   ]
@@ -200,12 +171,12 @@ locals {
   ###################################################################################
   # default
   devops_grants_on_app_cmp = [
-    "allow group ${local.devops_group_name} to use all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}"    
+    "allow group ${local.devops_group_name} to use all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
   ]
 
   ## All devops grants INCLUDING Custom Application-specific policies picked up from key-map in custom policies file...
   custom_policies = try(local.devops_grants_on_app_cmp_custom["${var.app_name}"], null)
-  devops_grants = concat(local.devops_grants_on_app_cmp, local.custom_policies == null? []: local.custom_policies )
+  devops_grants   = concat(local.devops_grants_on_app_cmp, local.custom_policies == null ? [] : local.custom_policies)
 
 
   ###################################################################################
@@ -243,5 +214,8 @@ locals {
     enable_cis_benchmark_checks : false
     supplied_policies : local.app_policies_in_enclosing_cmp
   }
+
+
+
 }
 

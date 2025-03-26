@@ -9,6 +9,6 @@ locals {
   enclosing_compartment_id   = "ocid1.compartment.oc1..aaaaaaaaegil5on3wbgrupnprtd3swgws45kcmf2uaatmrxwj5ioidw6yf7a" #that's top compartment of the landing zone
   lz_security_compartment_id = "ocid1.compartment.oc1..aaaaaaaapxcsokg3kxixulklpcxxodt74usex2dweihvhbsegzwgna2dkdfa" #that's the comrpartment that will contain the secondary identity domains for keystone workloads
   default_domain_url         = "https://idcs-b5df82bfdf03423280e5b3f62200ce46.identity.oraclecloud.com:443"
-  prod_compartment_id = ""
-  non_prod_compartment_id = ""
+  prod_compartment_id        = "ocid1.compartment.oc1..aaaaaaaalfkyplfgm33bkbychsiijyd6ecey6j6qlkbodur76tcqezpeddza"
+  non_prod_compartment_id    = "ocid1.compartment.oc1..aaaaaaaafdkh3x5cpgglzaijisgocban4nuvburoylbbkjapj5vz4umr35sq"
 }

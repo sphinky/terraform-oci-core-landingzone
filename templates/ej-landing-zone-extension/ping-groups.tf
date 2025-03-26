@@ -64,6 +64,8 @@ locals {
     }
   }
 
+
+  # reference each new group variable here in the merge
   groups_configuration = {
     groups : merge(local.oic_service_admin_group, local.oic_service_deployer_group, local.oic_service_admin_group, local.oic_service_monitor_group)
   }

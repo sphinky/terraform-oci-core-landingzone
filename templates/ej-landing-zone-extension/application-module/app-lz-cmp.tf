@@ -171,7 +171,13 @@ locals {
   ###################################################################################
   # default
   devops_grants_on_app_cmp = [
-    "allow group ${local.devops_group_name} to use all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}"
+    "allow group ${local.devops_group_name} to use all-resources in compartment ${local.env_container_cmp}:${local.app_compartment_name}",
+    "allow group ${local.deploy_group_name} to read virtual-network-family in compartment ${local.network_compartment_name}",
+    "allow group ${local.deploy_group_name} to read subnets in compartment ${local.network_compartment_name} where target.resource.tag.ej.env='${var.env}'",
+    "allow group ${local.deploy_group_name} to read network-security-groups in compartment ${local.network_compartment_name}",
+    "allow group ${local.deploy_group_name} to read vnics in compartment ${local.network_compartment_name}",
+    "allow group ${local.deploy_group_name} to read private-ips in compartment ${local.network_compartment_name}",
+    "allow group ${local.deploy_group_name} to read load-balancers in compartment ${local.network_compartment_name}"
   ]
 
   ## All devops grants INCLUDING Custom Application-specific policies picked up from key-map in custom policies file...

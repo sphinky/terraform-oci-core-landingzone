@@ -1,6 +1,7 @@
+###################################################################################
+  ## OSMH dynamic group configuration
+  ###################################################################################
 
-
-### BEGIN: ADDED FOR OSMH ###
 #get the existing app compartments in the prod/non-prod container compartments using this data source.....
 data "oci_identity_compartments" "prod_app_compartments" {
   #Required (Container Compartment)
@@ -24,7 +25,18 @@ module "lz_dynamic_groups_osmh" {
   tenancy_ocid                 = local.tenancy_ocid
   dynamic_groups_configuration = local.osmh_dynamic_group_configuration
 }
-### END: ADDED FOR OSMH ###
+
+
+module "lz_osmh_policies" {
+  depends_on             = [module.lz_dynamic_groups_osmh]
+  source                 = "github.com/oci-landing-zones/terraform-oci-modules-iam//policies?ref=v0.2.4"
+  providers              = { oci = oci }
+  tenancy_ocid           = local.tenancy_ocid
+  policies_configuration = local.osmh_policies_configuration
+}
+
+
+
 
 locals {
 
@@ -60,5 +72,37 @@ locals {
   osmh_dynamic_group_configuration = {
     dynamic_groups : merge(local.prod_osmh_dynamic_group, local.non_prod_osmh_dynamic_group)
   }
-  ### END: ADDED FOR OSMH ###
+
+
+  ###################################################################################
+  ## OSMH policy configuration
+  ###################################################################################
+  osmh_grants = [
+    #group names hardcoded.. be careful when changing
+    "allow dynamic-group dynamic-grp-osmh-non-prod to {OSMH_MANAGED_INSTANCE_ACCESS} in tenancy where request.principal.id = target.managed-instance.id",
+    "allow dynamic-group dynamic-grp-osmh-prod to {OSMH_MANAGED_INSTANCE_ACCESS} in tenancy where request.principal.id = target.managed-instance.id",
+    # make sure these group names match with the entra group names scimmed into OCI
+    "allow group security-group to read osmh-family in tenancy",
+    "allow group auditors-group to read osmh-family in tenancy"
+  ]
+
+  ## All deploy grants
+  all_osmh_grants = concat(local.osmh_grants)
+
+  osmh_policies_tenancy = {
+    ("osmh-service-policy") = {
+      compartment_id = local.enclosing_compartment_id
+      name           = "ej-osmh-service-policy"
+      description    = "LZ policy for prod and non-prod db admins groups to manage db's in prod and non-prod compartments"
+      defined_tags   = null
+      freeform_tags  = null
+      statements     = local.all_osmh_grants
+    }
+  }
+
+  osmh_policies_configuration = {
+    enable_cis_benchmark_checks : false
+    supplied_policies : local.osmh_policies_tenancy
+  }
+
 }

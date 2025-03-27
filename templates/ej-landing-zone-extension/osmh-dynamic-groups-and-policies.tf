@@ -90,7 +90,7 @@ locals {
 
   osmh_policies_tenancy = {
     ("osmh-service-policy") = {
-      compartment_id = local.enclosing_compartment_id
+      compartment_id = local.tenancy_ocid
       name           = "ej-osmh-service-policy"
       description    = "LZ policy for prod and non-prod db admins groups to manage db's in prod and non-prod compartments"
       defined_tags   = null

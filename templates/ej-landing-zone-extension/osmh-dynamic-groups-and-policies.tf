@@ -92,7 +92,7 @@ locals {
     ("osmh-service-policy") = {
       compartment_id = local.tenancy_ocid
       name           = "ej-osmh-service-policy"
-      description    = "LZ policy for prod and non-prod db admins groups to manage db's in prod and non-prod compartments"
+      description    = "LZ policy for OSMH service to allow it to access all instances in prod and non-prod apps"
       defined_tags   = null
       freeform_tags  = null
       statements     = local.all_osmh_grants
